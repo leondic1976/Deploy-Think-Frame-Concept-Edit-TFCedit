@@ -7,7 +7,11 @@
 - 잠금 파일: `package-lock.json`
 - 변경 기록: `CHANGELOG.md`
 - Git 태그: `vX.Y.Z`
-- 배포 파일: `ThinkFrameSetup.exe`, `SHA256SUMS.txt`, `.nupkg`, `RELEASES`
+- 배포 파일:
+  - Windows x64: `ThinkFrameSetup.exe`, `.nupkg`, `RELEASES`
+  - macOS: `ThinkFrame-macOS-arm64.dmg`, `ThinkFrame-macOS-x64.dmg`, 각 아키텍처 ZIP
+  - Linux x64: `ThinkFrame-linux-x64.deb`, `ThinkFrame-linux-x64.zip`
+  - 전체 파일: `SHA256SUMS.txt`
 
 앱 화면, 실행 파일, 설치 파일, Git 태그의 버전은 모두 `package.json`과 일치해야 합니다. `npm run version:check`가 package, lockfile, 변경 기록, 태그의 일치 여부를 검사합니다.
 
@@ -67,8 +71,8 @@ git push origin main --follow-tags
 ```
 
 6. GitHub Actions의 `Release` 작업이 완료됐는지 확인합니다.
-7. GitHub Release에 설치 파일과 체크섬이 첨부됐는지 확인합니다.
-8. 다운로드 설치와 PowerShell 설치를 확인합니다.
+7. GitHub Release에 Windows·macOS·Linux 파일과 체크섬이 첨부됐는지 확인합니다.
+8. 직접 다운로드, PowerShell 설치, macOS·Linux 셸 설치를 확인합니다.
 
 ## 자동 검증
 
@@ -78,15 +82,15 @@ git push origin main --follow-tags
 - ESLint
 - TypeScript
 - Vitest
-- Windows x64 설치 파일 생성
+- Windows x64, macOS Apple Silicon·Intel, Linux x64 패키지 생성
 
 `Release` 워크플로는 `vX.Y.Z` 태그에서 다음 작업을 수행합니다.
 
 - 태그와 앱 버전 일치 검사
 - 전체 품질 검사
-- `ThinkFrameSetup.exe` 빌드
-- `SHA256SUMS.txt` 생성
-- GitHub Release 생성 및 배포 파일 첨부
+- 각 운영체제의 네이티브 실행 환경에서 설치·압축 파일 빌드
+- 모든 배포 파일의 통합 `SHA256SUMS.txt` 생성
+- GitHub Release 생성 및 전체 배포 파일 첨부
 
 ## 배포 확인
 
@@ -99,4 +103,11 @@ gh release view vX.Y.Z
 
 ```powershell
 Get-FileHash .\ThinkFrameSetup.exe -Algorithm SHA256
+```
+
+macOS·Linux:
+
+```sh
+shasum -a 256 ThinkFrame-macOS-arm64.dmg
+sha256sum ThinkFrame-linux-x64.deb
 ```

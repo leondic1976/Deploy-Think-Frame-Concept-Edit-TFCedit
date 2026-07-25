@@ -6,6 +6,7 @@
 *.json text eol=lf
 *.md text eol=lf
 *.mjs text eol=lf
+*.sh text eol=lf
 *.ts text eol=lf
 *.tsx text eol=lf
 *.yml text eol=lf
@@ -13,4 +14,5 @@
 *.ps1 text eol=crlf
 
 *.ico binary
+*.icns binary
 *.png binary

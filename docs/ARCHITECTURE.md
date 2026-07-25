@@ -19,11 +19,13 @@
 
 - 패키지: Electron Forge
 - Windows 설치 형식: Squirrel.Windows x64
+- macOS 설치 형식: Apple Silicon·Intel DMG, ZIP
+- Linux 설치 형식: Debian·Ubuntu x64 DEB, ZIP
 - 릴리스 기준: `package.json`과 `vX.Y.Z` 태그
 - 배포 위치: GitHub Releases
-- 배포 파일: `ThinkFrameSetup.exe`, `.nupkg`, `RELEASES`, `SHA256SUMS.txt`
+- 배포 파일: 운영체제별 설치 파일·ZIP, `.nupkg`, `RELEASES`, 통합 `SHA256SUMS.txt`
 
-Git 태그를 푸시하면 GitHub Actions가 검사, Windows 빌드, 체크섬 생성, GitHub Release 게시를 수행합니다.
+Git 태그를 푸시하면 GitHub Actions가 공통 검사를 수행한 뒤 Windows, macOS Apple Silicon, macOS Intel, Linux 네이티브 실행 환경에서 병렬로 빌드합니다. 게시 작업은 산출물을 합치고 통합 체크섬을 생성해 GitHub Release에 첨부합니다.
 
 ## 업데이트
 
@@ -31,20 +33,20 @@ Git 태그를 푸시하면 GitHub Actions가 검사, Windows 빌드, 체크섬 �
 
 앱 내부 자동 업데이트는 아직 제공하지 않습니다. 사용자는 다음 중 하나로 최신 버전을 설치합니다.
 
-- GitHub Releases의 최신 `ThinkFrameSetup.exe` 실행
-- README의 PowerShell 설치 명령 실행
+- GitHub Releases의 운영체제별 최신 설치 파일 실행
+- README의 Windows PowerShell 또는 macOS·Linux 셸 설치 명령 실행
 
-Squirrel.Windows 설치는 같은 사용자 계정의 기존 ThinkFrame을 새 버전으로 교체합니다. 사용자 문서는 선택한 작업공간에 있고 앱 설치 경로와 분리되어 있으므로 업데이트 대상에 포함되지 않습니다.
+사용자 문서는 선택한 작업공간에 있고 앱 설치 경로와 분리되어 있으므로 업데이트 대상에 포함되지 않습니다.
 
 ### 향후 자동 업데이터
 
-공개 GitHub 저장소와 GitHub Releases를 유지하는 동안 Electron이 공식 안내하는 `update-electron-app`과 `update.electronjs.org` 조합을 우선 사용합니다.
+공개 GitHub 저장소와 GitHub Releases를 유지하는 동안 Windows는 Electron이 공식 안내하는 `update-electron-app`과 `update.electronjs.org` 조합을 우선 사용합니다. macOS 자동 업데이트는 코드 서명과 공증을 먼저 적용한 뒤 도입하며, Linux는 DEB 재설치와 릴리스 설치 스크립트를 유지합니다.
 
 구현 위치와 책임:
 
 1. 런타임 의존성으로 `update-electron-app`을 추가합니다.
 2. 메인 프로세스의 별도 `updateService`에서만 업데이터를 초기화합니다.
-3. 개발 실행에서는 비활성화하고 `app.isPackaged`인 Windows 빌드에서만 실행합니다.
+3. 개발 실행에서는 비활성화하고 `app.isPackaged`인 서명된 지원 빌드에서만 실행합니다.
 4. `--squirrel-firstrun` 동안 파일 잠금이 있으므로 첫 실행 직후에는 검사하지 않습니다.
 5. 업데이트 확인, 다운로드 완료, 오류 상태만 최소 IPC로 렌더러에 전달합니다.
 6. 재시작 설치는 문서 저장 상태를 확인한 뒤 사용자가 명시적으로 선택할 때 실행합니다.
@@ -57,6 +59,7 @@ Squirrel.Windows 설치는 같은 사용자 계정의 기존 ThinkFrame을 새 �
 - 배포 태그와 앱 버전 일치
 - 이전 버전보다 높은 SemVer만 안정 채널로 게시
 - 설치·업데이트 실행 파일 코드 서명 도입 검토
+- macOS Developer ID 코드 서명과 공증
 - 업데이트 실패 시 현재 버전을 계속 실행할 수 있는 오류 처리
 
 검증 항목:

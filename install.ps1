@@ -47,7 +47,13 @@ try {
   Invoke-WebRequest -Uri $setupAsset.browser_download_url -OutFile $setupPath -Headers $headers
   Invoke-WebRequest -Uri $checksumAsset.browser_download_url -OutFile $checksumPath -Headers $headers
 
-  $expectedHash = ((Get-Content -LiteralPath $checksumPath -Raw).Trim() -split "\s+")[0]
+  $checksumLine = Get-Content -LiteralPath $checksumPath |
+    Where-Object { $_ -match '^[A-Fa-f0-9]{64}\s+\*?ThinkFrameSetup\.exe$' } |
+    Select-Object -First 1
+  if (-not $checksumLine) {
+    throw "SHA256SUMS.txt에서 ThinkFrameSetup.exe 체크섬을 찾을 수 없습니다."
+  }
+  $expectedHash = ($checksumLine -split "\s+")[0]
   $actualHash = (Get-FileHash -LiteralPath $setupPath -Algorithm SHA256).Hash
   if ($actualHash -ne $expectedHash) {
     throw "설치 파일의 SHA-256 체크섬이 일치하지 않습니다."

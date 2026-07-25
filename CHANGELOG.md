@@ -2,13 +2,24 @@
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-07-25
+
+### 추가
+
+- macOS Apple Silicon·Intel DMG와 ZIP 패키지
+- Debian·Ubuntu Linux x64 DEB와 ZIP 패키지
+- macOS·Linux용 체크섬 검증 터미널 설치 스크립트
+- 운영체제별 네이티브 GitHub Actions 빌드와 통합 릴리스
+
 ### 수정
 
+- 여러 플랫폼의 통합 체크섬에서 Windows 설치 파일을 정확히 검증
+- Windows 알림과 바로가기를 위한 앱 사용자 모델 ID
 - 제한된 Windows 실행 정책에서도 동작하는 PowerShell 설치 명령
 
 ### 문서
 
-- 현재 업데이트 방식과 향후 자동 업데이터 구조
+- 현재 버전, 운영체제별 직접 다운로드 경로, 업데이트 구조
 
 ## [0.1.1] - 2026-07-25
 
@@ -31,6 +42,7 @@
 - SHA-256을 검증하는 PowerShell 설치 스크립트
 - Git 태그 기반 GitHub Release 자동 배포
 
-[Unreleased]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/tag/v0.1.0

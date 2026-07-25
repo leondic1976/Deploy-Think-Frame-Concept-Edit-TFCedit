@@ -3,6 +3,7 @@ node_modules/
 out/
 coverage/
 release/
+release-assets/
 *.log
 .DS_Store
 Thumbs.db

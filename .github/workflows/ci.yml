@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   quality:
-    runs-on: windows-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -40,24 +40,61 @@ jobs:
       - name: Test
         run: npm test
 
-      - name: Build Windows installer
-        run: npm run make
+  package:
+    needs: quality
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: Windows
+            platform_id: windows
+            arch: x64
+            runner: windows-latest
+            command: npm run make:windows
+          - platform: macOS
+            platform_id: macos
+            arch: arm64
+            runner: macos-15
+            command: npm run make:mac:arm64
+          - platform: macOS
+            platform_id: macos
+            arch: x64
+            runner: macos-15-intel
+            command: npm run make:mac:x64
+          - platform: Linux
+            platform_id: linux
+            arch: x64
+            runner: ubuntu-24.04
+            command: npm run make:linux
+    runs-on: ${{ matrix.runner }}
+    name: Package ${{ matrix.platform }} ${{ matrix.arch }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Create checksum
-        shell: pwsh
-        run: |
-          $setup = "out/make/squirrel.windows/x64/ThinkFrameSetup.exe"
-          $hash = (Get-FileHash -LiteralPath $setup -Algorithm SHA256).Hash
-          "$hash *ThinkFrameSetup.exe" | Set-Content -LiteralPath "out/make/squirrel.windows/x64/SHA256SUMS.txt" -Encoding ascii
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
 
-      - name: Upload installer
+      - name: Install Linux packaging tools
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y fakeroot dpkg
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build packages
+        run: ${{ matrix.command }}
+
+      - name: Collect release assets
+        run: npm run artifacts -- ${{ matrix.platform_id }} ${{ matrix.arch }}
+
+      - name: Upload packages
         uses: actions/upload-artifact@v4
         with:
-          name: ThinkFrame-Windows-x64
-          path: |
-            out/make/squirrel.windows/x64/ThinkFrameSetup.exe
-            out/make/squirrel.windows/x64/*.nupkg
-            out/make/squirrel.windows/x64/RELEASES
-            out/make/squirrel.windows/x64/SHA256SUMS.txt
+          name: ThinkFrame-${{ matrix.platform }}-${{ matrix.arch }}
+          path: release-assets/*
           if-no-files-found: error
           retention-days: 14

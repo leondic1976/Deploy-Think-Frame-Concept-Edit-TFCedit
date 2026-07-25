@@ -15,6 +15,10 @@ import { createMainWindow } from './window';
 
 if (isSquirrelStartup) app.quit();
 
+if (process.platform === 'win32') {
+  app.setAppUserModelId('com.squirrel.ThinkFrame.ThinkFrame');
+}
+
 app
   .whenReady()
   .then(async () => {
