@@ -8,6 +8,16 @@
       content="Markdown과 텍스트를 편집하고 생각을 구조화하는 데스크톱 프로그램 ThinkFrame"
     />
     <meta name="theme-color" content="#17142d" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="ThinkFrame — 생각을 실행 가능한 문서로" />
+    <meta
+      property="og:description"
+      content="Markdown·TXT 편집과 단계별 AI 사고 보조를 제공하는 로컬 중심 데스크톱 프로그램"
+    />
+    <meta
+      property="og:image"
+      content="https://leondic1976.github.io/Deploy-Think-Frame-Concept-Edit-TFCedit/images/thinkframe-app.png"
+    />
     <title>ThinkFrame — 생각을 실행 가능한 문서로</title>
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
@@ -20,7 +30,9 @@
         <span>ThinkFrame</span>
       </a>
       <nav aria-label="주요 메뉴">
-        <a href="#features">기능</a>
+        <a href="#features">소개</a>
+        <a href="#screen">실제 화면</a>
+        <a href="#guide">사용법</a>
         <a href="#download">다운로드</a>
         <a href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit"
           >GitHub</a
@@ -33,7 +45,7 @@
         <div class="hero-copy">
           <div class="eyebrow">
             <span class="status-dot"></span>
-            <span id="release-label">최신 안정 버전 v0.2.1</span>
+            <span id="release-label">최신 안정 버전 v0.2.2</span>
           </div>
           <h1>흩어진 생각을<br /><span>실행 가능한 문서로.</span></h1>
           <p>
@@ -55,37 +67,15 @@
           </div>
         </div>
 
-        <div class="app-preview" aria-label="ThinkFrame 화면 미리보기">
-          <div class="preview-titlebar">
-            <span class="preview-logo">T</span>
-            <span>ThinkFrame</span>
-            <span class="window-buttons">—　□　×</span>
-          </div>
-          <div class="preview-body">
-            <aside>
-              <span class="aside-title">문서</span>
-              <div class="document active">프로젝트 구상.md</div>
-              <div class="document">작업 메모.txt</div>
-              <div class="document">아이디어.md</div>
-            </aside>
-            <article>
-              <span class="file-name">프로젝트 구상.md</span>
-              <h2>더 나은 문서 흐름</h2>
-              <p>핵심 목표와 제약 조건을 분리하고 우선순위를 정리한다.</p>
-              <div class="text-line wide"></div>
-              <div class="text-line"></div>
-              <div class="text-line short"></div>
-            </article>
-            <aside class="assistant">
-              <span class="aside-title">사고 도우미</span>
-              <div class="stage active">1　체계화</div>
-              <div class="stage">2　구조화</div>
-              <div class="stage">3　개념검증</div>
-              <div class="stage">4　현실화</div>
-              <div class="assistant-card">목표와 실행 단계를 분리해 정리했습니다.</div>
-            </aside>
-          </div>
-        </div>
+        <figure class="app-preview actual-preview">
+          <img
+            src="images/thinkframe-app.png"
+            alt="ThinkFrame 실제 실행 화면 미리보기"
+            width="1426"
+            height="893"
+          />
+          <figcaption><span></span> 실제 설치본 화면 · v0.2.2</figcaption>
+        </figure>
       </section>
 
       <section class="features section" id="features">
@@ -117,6 +107,100 @@
               전송됩니다.
             </p>
           </article>
+        </div>
+      </section>
+
+      <section class="actual-screen section" id="screen">
+        <div class="section-heading centered">
+          <span class="kicker">ACTUAL SCREEN</span>
+          <h2>설치된 ThinkFrame의 실제 화면.</h2>
+          <p>
+            별도의 디자인 목업이 아닌 Windows에 설치한 ThinkFrame v0.2.2에서 데모
+            작업공간을 연 화면입니다.
+          </p>
+        </div>
+
+        <figure class="screen-frame">
+          <div class="screen-meta">
+            <span><i></i> ThinkFrame 실제 실행 화면</span>
+            <span>Windows · v0.2.2</span>
+          </div>
+          <img
+            src="images/thinkframe-app.png"
+            alt="문서 목록, Markdown 편집기, 사고 도우미가 함께 표시된 ThinkFrame 실제 실행 화면"
+            width="1426"
+            height="893"
+            loading="lazy"
+          />
+          <figcaption>
+            <span><b>1</b> 문서 작업공간</span>
+            <span><b>2</b> Markdown·TXT 편집기</span>
+            <span><b>3</b> 단계별 사고 도우미</span>
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="guide section" id="guide">
+        <div class="guide-intro">
+          <div class="section-heading">
+            <span class="kicker">HOW TO USE</span>
+            <h2>폴더를 선택하고,<br />바로 기록하세요.</h2>
+          </div>
+          <p>
+            문서를 특별한 형식으로 옮길 필요가 없습니다. 기존 폴더를 작업공간으로 지정하면
+            그 안의 Markdown과 TXT 파일을 바로 편집할 수 있습니다.
+          </p>
+        </div>
+
+        <ol class="guide-steps">
+          <li>
+            <span class="step-number">01</span>
+            <div>
+              <h3>설치하고 실행</h3>
+              <p>
+                운영체제에 맞는 설치 파일을 내려받거나 아래 터미널 명령으로 설치한 뒤
+                ThinkFrame을 실행합니다.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span class="step-number">02</span>
+            <div>
+              <h3>작업공간 선택</h3>
+              <p>
+                첫 화면의 <strong>작업공간 선택</strong>을 누르고 문서를 보관할 로컬
+                폴더를 지정합니다.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span class="step-number">03</span>
+            <div>
+              <h3>문서 작성과 정리</h3>
+              <p>
+                새 Markdown 또는 TXT 문서를 만들고 편집합니다. 자동 저장, 찾기·바꾸기,
+                이름 변경과 복제를 지원합니다.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span class="step-number">04</span>
+            <div>
+              <h3>사고 도우미 사용</h3>
+              <p>
+                설정에 OpenAI 호환 API를 연결한 뒤 체계화·구조화·개념검증·현실화를
+                실행하고, 필요한 결과만 문서에 반영합니다.
+              </p>
+            </div>
+          </li>
+        </ol>
+
+        <div class="workflow-note">
+          <span>문서 흐름</span>
+          <div>
+            <b>자유롭게 기록</b><i>→</i><b>생각 정리</b><i>→</i><b>실행안 검증</b><i>→</i
+            ><b>최종 프롬프트</b>
+          </div>
         </div>
       </section>
 
