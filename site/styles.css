@@ -245,14 +245,13 @@ h1 {
 .demo-frame {
   position: relative;
   display: block;
+  overflow: hidden;
   border-radius: 20px;
 }
 
 .demo-topbar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 4;
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 46px;
   display: flex;
@@ -305,7 +304,7 @@ h1 {
 }
 
 .demo-live {
-  min-width: 54px;
+  min-width: 76px;
   padding: 3px 7px;
   border-radius: 999px;
   color: #0f2d57;
@@ -321,129 +320,13 @@ h1 {
   text-wrap: nowrap;
 }
 
-.demo-image {
+.demo-video {
   display: block;
   width: 100%;
   height: auto;
-}
-
-.demo-overlay {
-  position: absolute;
-  inset: 14px;
-  top: 58px;
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  pointer-events: none;
-}
-
-.demo-metrics {
-  align-self: flex-start;
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-  margin-top: auto;
-}
-
-.demo-metrics span {
-  padding: 5px 8px;
-  border-radius: 999px;
-  color: #e8efff;
-  font-size: 0.74rem;
-  font-weight: 720;
-  background: rgba(14, 45, 89, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  letter-spacing: 0.01em;
-  white-space: nowrap;
-}
-
-.demo-ticker {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: #d4e2ff;
-  font-size: 0.73rem;
-  line-height: 1.45;
-  text-wrap: nowrap;
-}
-
-.ticker-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #67eb9f;
-  animation: tickerPulse 1.3s infinite;
-}
-
-.demo-cursor {
-  position: absolute;
-  top: 48%;
-  left: 62%;
-  z-index: 5;
-  width: 2px;
-  height: 28px;
-  border-radius: 2px;
-  background: #9ae0ff;
-  animation: demoCursor 1.2s infinite steps(1);
-  box-shadow: 0 0 16px rgba(145, 214, 255, 0.8);
-}
-
-.demo-scanline {
-  position: absolute;
-  left: 0;
-  right: 0;
-  z-index: 2;
-  height: 5px;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0),
-    rgba(123, 196, 255, 0.45),
-    rgba(255, 255, 255, 0)
-  );
-  animation: demoScan 2.2s ease-in-out infinite;
-  opacity: 0.2;
-}
-
-@keyframes demoCursor {
-  0%,
-  60% {
-    opacity: 1;
-  }
-
-  61%,
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes demoScan {
-  0% {
-    top: 18%;
-    opacity: 0.22;
-  }
-
-  40% {
-    opacity: 0.45;
-  }
-
-  100% {
-    top: 88%;
-    opacity: 0.08;
-  }
-}
-
-@keyframes tickerPulse {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-
-  50% {
-    transform: scale(0.7);
-    opacity: 0.55;
-  }
+  aspect-ratio: 8 / 5;
+  object-fit: cover;
+  background: #f5f4f1;
 }
 
 .actual-preview figcaption {
@@ -610,9 +493,7 @@ h1 {
 }
 
 .guide-video-topbar {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   z-index: 2;
   width: 100%;
   height: 44px;
@@ -657,7 +538,7 @@ h1 {
 }
 
 .guide-video-live {
-  min-width: 48px;
+  min-width: 72px;
   padding: 2px 7px;
   border-radius: 999px;
   color: #0f2d57;
@@ -667,73 +548,13 @@ h1 {
   font-weight: 800;
 }
 
-.guide-video-shot {
-  position: relative;
-  z-index: 1;
+.guide-video {
   display: block;
   width: 100%;
   height: auto;
-}
-
-.guide-video-overlay {
-  position: absolute;
-  left: 14px;
-  right: 14px;
-  bottom: 18px;
-  z-index: 3;
-  display: grid;
-  gap: 6px;
-  padding: 12px 14px;
-  border-radius: 14px;
-  background: rgba(8, 26, 55, 0.8);
-  backdrop-filter: blur(10px);
-  color: #eff6ff;
-}
-
-.guide-video-chip {
-  width: max-content;
-  padding: 3px 8px;
-  border-radius: 999px;
-  color: #16345f;
-  background: #73dcff;
-  font-size: 0.66rem;
-  font-weight: 820;
-}
-
-.guide-video-overlay h3 {
-  margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.35;
-}
-
-.guide-video-overlay p {
-  margin: 0;
-  color: #d3e0ff;
-  font-size: 0.8rem;
-  line-height: 1.65;
-}
-
-.guide-video-timeline {
-  position: absolute;
-  left: 14px;
-  right: 14px;
-  bottom: 9px;
-  z-index: 2;
-  height: 4px;
-  overflow: hidden;
-  border-radius: 99px;
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.guide-video-timeline span {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, #70dcff, #6ea9ff);
-  transform-origin: left;
-  transform: scaleX(0);
-  transition: transform 300ms linear;
+  aspect-ratio: 8 / 5;
+  object-fit: cover;
+  background: #f5f4f1;
 }
 
 .guide-steps {
@@ -758,17 +579,6 @@ h1 {
     border-color 160ms ease,
     transform 160ms ease,
     box-shadow 160ms ease;
-}
-
-.guide-step.is-active {
-  border-color: rgba(47, 115, 255, 0.45);
-  box-shadow: 0 14px 40px rgba(29, 78, 167, 0.14);
-  transform: translateY(-2px);
-}
-
-.guide-step.is-active .step-number {
-  color: #12366f;
-  background: #d1e4ff;
 }
 
 .step-number {
