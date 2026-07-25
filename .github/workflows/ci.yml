@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - 'agent/**'
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check version
+        run: npm run version:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Build Windows installer
+        run: npm run make
+
+      - name: Create checksum
+        shell: pwsh
+        run: |
+          $setup = "out/make/squirrel.windows/x64/ThinkFrameSetup.exe"
+          $hash = (Get-FileHash -LiteralPath $setup -Algorithm SHA256).Hash
+          "$hash *ThinkFrameSetup.exe" | Set-Content -LiteralPath "out/make/squirrel.windows/x64/SHA256SUMS.txt" -Encoding ascii
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: ThinkFrame-Windows-x64
+          path: |
+            out/make/squirrel.windows/x64/ThinkFrameSetup.exe
+            out/make/squirrel.windows/x64/*.nupkg
+            out/make/squirrel.windows/x64/RELEASES
+            out/make/squirrel.windows/x64/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14

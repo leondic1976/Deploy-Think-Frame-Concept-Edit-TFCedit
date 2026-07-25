@@ -1,0 +1,7 @@
+node_modules
+.vite
+out
+coverage
+release
+package-lock.json
+thinkframe_development_prompt.md

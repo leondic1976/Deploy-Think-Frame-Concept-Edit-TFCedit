@@ -1,0 +1,17 @@
+changelog:
+  exclude:
+    labels:
+      - skip-changelog
+  categories:
+    - title: 새 기능
+      labels:
+        - enhancement
+    - title: 수정
+      labels:
+        - bug
+    - title: 보안
+      labels:
+        - security
+    - title: 기타 변경
+      labels:
+        - '*'

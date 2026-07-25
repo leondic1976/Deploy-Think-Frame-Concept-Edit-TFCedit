@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      electron-toolchain:
+        patterns:
+          - 'electron'
+          - '@electron*'
+      frontend-toolchain:
+        patterns:
+          - 'react*'
+          - 'vite'
+          - '@vitejs/*'
+          - 'typescript'
+          - 'vitest'
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

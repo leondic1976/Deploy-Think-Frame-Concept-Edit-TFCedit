@@ -1,0 +1,68 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify tag and app version
+        shell: pwsh
+        run: npm run version:check -- --tag $env:GITHUB_REF_NAME
+
+      - name: Validate
+        run: npm run check
+
+      - name: Build Windows installer
+        run: npm run make
+
+      - name: Create checksum
+        shell: pwsh
+        run: |
+          $setup = "out/make/squirrel.windows/x64/ThinkFrameSetup.exe"
+          $hash = (Get-FileHash -LiteralPath $setup -Algorithm SHA256).Hash
+          "$hash *ThinkFrameSetup.exe" | Set-Content -LiteralPath "out/make/squirrel.windows/x64/SHA256SUMS.txt" -Encoding ascii
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ThinkFrame-${{ github.ref_name }}-Windows-x64
+          path: |
+            out/make/squirrel.windows/x64/ThinkFrameSetup.exe
+            out/make/squirrel.windows/x64/*.nupkg
+            out/make/squirrel.windows/x64/RELEASES
+            out/make/squirrel.windows/x64/SHA256SUMS.txt
+          if-no-files-found: error
+
+      - name: Publish GitHub Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = $env:GITHUB_REF_NAME
+          $files = Get-ChildItem -LiteralPath "out/make/squirrel.windows/x64" -File |
+            Where-Object { $_.Name -eq "ThinkFrameSetup.exe" -or $_.Extension -eq ".nupkg" -or $_.Name -eq "RELEASES" -or $_.Name -eq "SHA256SUMS.txt" } |
+            ForEach-Object { $_.FullName }
+          if (gh release view $tag 2>$null) {
+            gh release upload $tag $files --clobber
+          } else {
+            gh release create $tag $files --title "ThinkFrame $tag" --generate-notes --verify-tag
+          }

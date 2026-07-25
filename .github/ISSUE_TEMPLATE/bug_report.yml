@@ -1,0 +1,41 @@
+name: 버그 보고
+description: ThinkFrame에서 재현되는 문제를 보고합니다.
+title: '[Bug] '
+labels:
+  - bug
+body:
+  - type: input
+    id: version
+    attributes:
+      label: ThinkFrame 버전
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: windows
+    attributes:
+      label: Windows 버전
+      options:
+        - Windows 11
+        - Windows 10
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: 문제
+      description: 발생한 현상과 예상한 동작을 작성해 주세요.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 재현 절차
+      description: 문제를 재현할 수 있는 순서를 작성해 주세요.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 추가 정보
+      description: 민감정보와 API 키를 제거한 로그 또는 화면을 첨부해 주세요.
