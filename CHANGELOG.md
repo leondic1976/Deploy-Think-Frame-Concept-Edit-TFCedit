@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-07-25
+
+### 수정
+
+- Linux DEB 제작기가 대소문자를 구분하는 실행 파일 이름을 사용하도록 수정
+
 ## [0.2.0] - 2026-07-25
 
 ### 추가
@@ -42,7 +48,8 @@
 - SHA-256을 검증하는 PowerShell 설치 스크립트
 - Git 태그 기반 GitHub Release 자동 배포
 
-[Unreleased]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/tag/v0.1.0

@@ -44,6 +44,7 @@ const config: ForgeConfig = {
       {
         options: {
           name: 'thinkframe',
+          bin: 'ThinkFrame',
           productName: 'ThinkFrame',
           genericName: 'Text Editor',
           description: 'Local Markdown and text editor with an AI thinking assistant',

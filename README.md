@@ -4,8 +4,8 @@ ThinkFrame은 Markdown·TXT 문서를 편집하고, 작성한 생각을 AI로 �
 
 ## 버전
 
-- 현재 안정 버전: `0.2.0`
-- 현재 버전 릴리스: [v0.2.0](https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/tag/v0.2.0)
+- 현재 안정 버전: `0.2.1`
+- 현재 버전 릴리스: [v0.2.1](https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/tag/v0.2.1)
 - 최신 릴리스: [releases/latest](https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/latest)
 - 전체 버전: [releases](https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases)
 - 변경 기록: [CHANGELOG.md](CHANGELOG.md)
@@ -48,7 +48,7 @@ $script="$env:TEMP\install-thinkframe.ps1"; Invoke-WebRequest "https://raw.githu
 특정 버전:
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$env:TEMP\install-thinkframe.ps1" -Version 0.2.0
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$env:TEMP\install-thinkframe.ps1" -Version 0.2.1
 ```
 
 ### macOS·Linux
@@ -62,7 +62,7 @@ curl -fsSL https://raw.githubusercontent.com/leondic1976/Deploy-Think-Frame-Conc
 특정 버전:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/main/install.sh | sh -s -- 0.2.0
+curl -fsSL https://raw.githubusercontent.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/main/install.sh | sh -s -- 0.2.1
 ```
 
 설치 스크립트는 GitHub Release에서 운영체제에 맞는 파일과 `SHA256SUMS.txt`를 내려받아 SHA-256을 검증합니다. macOS는 `/Applications/ThinkFrame.app`, Linux는 DEB 패키지로 설치합니다.
