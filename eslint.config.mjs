@@ -11,6 +11,7 @@ export default tseslint.config(
       'out/**',
       'coverage/**',
       'release/**',
+      'site/**',
       'eslint.config.mjs',
       'scripts/*.mjs',
     ],

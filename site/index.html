@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Markdown과 텍스트를 편집하고 생각을 구조화하는 데스크톱 프로그램 ThinkFrame"
+    />
+    <meta name="theme-color" content="#17142d" />
+    <title>ThinkFrame — 생각을 실행 가능한 문서로</title>
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="ThinkFrame 홈">
+        <img src="icon.svg" alt="" width="34" height="34" />
+        <span>ThinkFrame</span>
+      </a>
+      <nav aria-label="주요 메뉴">
+        <a href="#features">기능</a>
+        <a href="#download">다운로드</a>
+        <a href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit"
+          >GitHub</a
+        >
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">
+            <span class="status-dot"></span>
+            <span id="release-label">최신 안정 버전 v0.2.1</span>
+          </div>
+          <h1>흩어진 생각을<br /><span>실행 가능한 문서로.</span></h1>
+          <p>
+            Markdown과 일반 텍스트를 편집하고, AI 사고 도우미로 체계화부터 최종
+            프롬프트까지 한곳에서 완성하세요.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#download">내 운영체제용 다운로드</a>
+            <a
+              class="button secondary"
+              href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/latest"
+              >릴리스 보기</a
+            >
+          </div>
+          <div class="trust-row" aria-label="프로그램 특성">
+            <span>로컬 문서</span>
+            <span>Markdown · TXT</span>
+            <span>Windows · macOS · Linux</span>
+          </div>
+        </div>
+
+        <div class="app-preview" aria-label="ThinkFrame 화면 미리보기">
+          <div class="preview-titlebar">
+            <span class="preview-logo">T</span>
+            <span>ThinkFrame</span>
+            <span class="window-buttons">—　□　×</span>
+          </div>
+          <div class="preview-body">
+            <aside>
+              <span class="aside-title">문서</span>
+              <div class="document active">프로젝트 구상.md</div>
+              <div class="document">작업 메모.txt</div>
+              <div class="document">아이디어.md</div>
+            </aside>
+            <article>
+              <span class="file-name">프로젝트 구상.md</span>
+              <h2>더 나은 문서 흐름</h2>
+              <p>핵심 목표와 제약 조건을 분리하고 우선순위를 정리한다.</p>
+              <div class="text-line wide"></div>
+              <div class="text-line"></div>
+              <div class="text-line short"></div>
+            </article>
+            <aside class="assistant">
+              <span class="aside-title">사고 도우미</span>
+              <div class="stage active">1　체계화</div>
+              <div class="stage">2　구조화</div>
+              <div class="stage">3　개념검증</div>
+              <div class="stage">4　현실화</div>
+              <div class="assistant-card">목표와 실행 단계를 분리해 정리했습니다.</div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="features section" id="features">
+        <div class="section-heading">
+          <span class="kicker">WRITE · THINK · REFINE</span>
+          <h2>텍스트 편집기의 속도,<br />사고 도구의 깊이.</h2>
+        </div>
+        <div class="feature-grid">
+          <article>
+            <span class="feature-number">01</span>
+            <h3>일반 텍스트 편집</h3>
+            <p>
+              Markdown과 TXT 문서를 만들고 찾기·바꾸기, 자동 저장, 문서 정리를 사용할 수
+              있습니다.
+            </p>
+          </article>
+          <article>
+            <span class="feature-number">02</span>
+            <h3>단계별 사고 보조</h3>
+            <p>
+              체계화, 구조화, 개념검증, 현실화를 거쳐 최종 작업 프롬프트로 발전시킵니다.
+            </p>
+          </article>
+          <article>
+            <span class="feature-number">03</span>
+            <h3>로컬 중심 설계</h3>
+            <p>
+              문서는 선택한 작업공간에 저장되며 AI 분석을 실행할 때만 설정한 API로
+              전송됩니다.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="download section" id="download">
+        <div class="section-heading centered">
+          <span class="kicker">DOWNLOAD</span>
+          <h2>사용 중인 환경에서 시작하세요.</h2>
+          <p id="release-date">GitHub Releases에서 최신 안정 버전을 제공합니다.</p>
+        </div>
+
+        <div class="download-grid">
+          <article class="download-card" data-os="windows">
+            <div class="platform-mark">⊞</div>
+            <h3>Windows</h3>
+            <p>Windows 10/11 · x64</p>
+            <a
+              class="download-link"
+              data-asset="ThinkFrameSetup.exe"
+              href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/latest/download/ThinkFrameSetup.exe"
+              >Setup.exe 다운로드</a
+            >
+          </article>
+
+          <article class="download-card" data-os="macos">
+            <div class="platform-mark">●</div>
+            <h3>macOS</h3>
+            <p>Apple Silicon · Intel</p>
+            <div class="stacked-links">
+              <a
+                data-asset="ThinkFrame-macOS-arm64.dmg"
+                href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/latest/download/ThinkFrame-macOS-arm64.dmg"
+                >Apple Silicon DMG</a
+              >
+              <a
+                data-asset="ThinkFrame-macOS-x64.dmg"
+                href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/latest/download/ThinkFrame-macOS-x64.dmg"
+                >Intel DMG</a
+              >
+            </div>
+          </article>
+
+          <article class="download-card" data-os="linux">
+            <div class="platform-mark">&gt;_</div>
+            <h3>Linux</h3>
+            <p>Debian / Ubuntu · x64</p>
+            <a
+              class="download-link"
+              data-asset="ThinkFrame-linux-x64.deb"
+              href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/latest/download/ThinkFrame-linux-x64.deb"
+              >DEB 다운로드</a
+            >
+          </article>
+        </div>
+
+        <div class="terminal-install">
+          <div class="terminal-tabs" role="tablist" aria-label="터미널 설치 명령">
+            <button class="terminal-tab active" data-command="windows" role="tab">
+              Windows
+            </button>
+            <button class="terminal-tab" data-command="unix" role="tab">
+              macOS · Linux
+            </button>
+          </div>
+          <div class="command-row">
+            <code id="install-command"
+              >$s="$env:TEMP\install-thinkframe.ps1"; iwr
+              "https://raw.githubusercontent.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/main/install.ps1"
+              -OutFile $s; powershell -ExecutionPolicy Bypass -File $s</code
+            >
+            <button id="copy-command" type="button">복사</button>
+          </div>
+          <p>설치 전에 릴리스의 SHA-256 체크섬을 자동으로 검증합니다.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="brand">
+        <img src="icon.svg" alt="" width="30" height="30" />
+        <span>ThinkFrame</span>
+      </div>
+      <div class="footer-links">
+        <a
+          href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases"
+          >모든 버전</a
+        >
+        <a
+          href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/blob/main/README.md"
+          >사용 방법</a
+        >
+        <a
+          href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/issues"
+          >문제 신고</a
+        >
+      </div>
+    </footer>
+  </body>
+</html>

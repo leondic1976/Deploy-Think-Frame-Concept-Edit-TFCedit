@@ -8,6 +8,7 @@ ThinkFrame은 Markdown·TXT 문서를 편집하고, 작성한 생각을 AI로 �
 - 현재 버전 릴리스: [v0.2.1](https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/tag/v0.2.1)
 - 최신 릴리스: [releases/latest](https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/latest)
 - 전체 버전: [releases](https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases)
+- 다운로드 사이트: [ThinkFrame GitHub Pages](https://leondic1976.github.io/Deploy-Think-Frame-Concept-Edit-TFCedit/)
 - 변경 기록: [CHANGELOG.md](CHANGELOG.md)
 
 ## 다운로드

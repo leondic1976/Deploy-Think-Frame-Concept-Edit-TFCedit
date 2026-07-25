@@ -118,3 +118,4 @@ jobs:
               --title "ThinkFrame $GITHUB_REF_NAME" \
               --generate-notes \
               --verify-tag
+          fi
