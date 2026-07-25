@@ -1,7 +1,7 @@
 {
   "name": "thinkframe",
   "productName": "ThinkFrame",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "생각을 실행 가능한 형태로 발전시키는 로컬 중심 AI 사고 보조 메모장",
   "repository": {
     "type": "git",
