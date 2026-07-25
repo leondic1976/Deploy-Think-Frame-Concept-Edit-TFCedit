@@ -4,7 +4,18 @@
 
 ### 추가
 
+- 설치된 ThinkFrame 실제 화면과 단계별 사용법을 제공하는 소개 페이지
+
+## [0.2.2] - 2026-07-25
+
+### 추가
+
 - 최신 릴리스와 운영체제별 다운로드를 제공하는 GitHub Pages 사이트
+
+### 변경
+
+- 커스텀 창 제어 버튼을 제거하고 운영체제 기본 창 프레임 사용
+- 문서 상태와 패널·설정 제어를 단순한 앱 도구 모음으로 분리
 
 ### 수정
 
@@ -59,7 +70,8 @@
 - SHA-256을 검증하는 PowerShell 설치 스크립트
 - Git 태그 기반 GitHub Release 자동 배포
 
-[Unreleased]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.1.0...v0.1.1

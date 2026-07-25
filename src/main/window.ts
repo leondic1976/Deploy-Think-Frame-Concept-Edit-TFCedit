@@ -8,8 +8,8 @@ export function createMainWindow(): BrowserWindow {
     minWidth: 1050,
     minHeight: 680,
     show: false,
-    frame: false,
-    titleBarStyle: 'hidden',
+    title: 'ThinkFrame',
+    autoHideMenuBar: true,
     backgroundColor: '#f5f4f1',
     icon: path.join(__dirname, '../../assets/icon.png'),
     webPreferences: {

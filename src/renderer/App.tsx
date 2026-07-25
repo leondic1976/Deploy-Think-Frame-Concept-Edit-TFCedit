@@ -10,7 +10,7 @@ import { AssistantPanel } from './components/AssistantPanel/AssistantPanel';
 import { Editor } from './components/Editor/Editor';
 import { SettingsModal } from './components/Settings/SettingsModal';
 import { Sidebar } from './components/Sidebar/Sidebar';
-import { TitleBar } from './components/TitleBar/TitleBar';
+import { Toolbar } from './components/Toolbar/Toolbar';
 import { useAppDispatch, useAppState } from './state/appStore';
 import { formatError } from './utils/formatting';
 
@@ -26,7 +26,6 @@ export function App(): React.JSX.Element {
   const state = useAppState();
   const dispatch = useAppDispatch();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const closingRef = useRef(false);
   const [findOpen, setFindOpen] = useState(false);
 
   const refreshFiles = useCallback(async (): Promise<void> => {
@@ -355,21 +354,9 @@ export function App(): React.JSX.Element {
     dispatch({ type: 'settings', settings: await window.thinkframe.settings.get() });
   };
 
-  const handleClose = async (): Promise<void> => {
-    const saved = await saveDocument();
-    if (
-      !saved &&
-      !window.confirm('저장되지 않은 내용이 있습니다. 그래도 ThinkFrame을 종료할까요?')
-    ) {
-      return;
-    }
-    closingRef.current = true;
-    await window.thinkframe.window.close();
-  };
-
   useEffect(() => {
     const preventUnsavedClose = (event: BeforeUnloadEvent): void => {
-      if (!closingRef.current && state.document && state.content !== state.savedContent) {
+      if (state.document && state.content !== state.savedContent) {
         event.preventDefault();
         event.returnValue = '';
       }
@@ -416,14 +403,13 @@ export function App(): React.JSX.Element {
 
   return (
     <div className="app-shell" onKeyDownCapture={handleKeyboard}>
-      <TitleBar
+      <Toolbar
         documentName={state.document?.name ?? ''}
         version={state.appInfo?.version ?? '0.1.0'}
         saveStatus={state.saveStatus}
         onToggleSidebar={() => dispatch({ type: 'toggleSidebar' })}
         onToggleAssistant={() => dispatch({ type: 'toggleAssistant' })}
         onSettings={() => dispatch({ type: 'settingsOpen', value: true })}
-        onClose={() => void handleClose()}
       />
       {state.error && (
         <div className="error-banner" role="alert">

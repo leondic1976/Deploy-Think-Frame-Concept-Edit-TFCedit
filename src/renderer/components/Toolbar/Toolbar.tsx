@@ -1,13 +1,12 @@
 import type { SaveStatus } from '../../state/appStore';
 
-interface TitleBarProps {
+interface ToolbarProps {
   documentName: string;
   version: string;
   saveStatus: SaveStatus;
   onToggleSidebar: () => void;
   onToggleAssistant: () => void;
   onSettings: () => void;
-  onClose: () => void;
 }
 
 const SAVE_LABELS: Record<SaveStatus, string> = {
@@ -19,37 +18,16 @@ const SAVE_LABELS: Record<SaveStatus, string> = {
   error: '저장 실패',
 };
 
-export function TitleBar({
+export function Toolbar({
   documentName,
   version,
   saveStatus,
   onToggleSidebar,
   onToggleAssistant,
   onSettings,
-  onClose,
-}: TitleBarProps): React.JSX.Element {
+}: ToolbarProps): React.JSX.Element {
   return (
-    <header className="titlebar">
-      <div className="window-controls" aria-label="창 제어">
-        <button
-          className="window-dot close"
-          aria-label="창 닫기"
-          title="닫기"
-          onClick={onClose}
-        />
-        <button
-          className="window-dot minimize"
-          aria-label="창 최소화"
-          title="최소화"
-          onClick={() => void window.thinkframe.window.minimize()}
-        />
-        <button
-          className="window-dot maximize"
-          aria-label="창 최대화 또는 복원"
-          title="최대화 또는 복원"
-          onClick={() => void window.thinkframe.window.toggleMaximize()}
-        />
-      </div>
+    <header className="app-toolbar">
       <div className="titlebar-brand">
         <span className="brand-mark">T</span>
         <strong>ThinkFrame</strong>
