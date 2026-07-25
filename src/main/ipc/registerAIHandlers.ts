@@ -18,10 +18,8 @@ export function registerAIHandlers(
     if (activeRequests.has(request.requestId)) {
       throw new Error('같은 AI 요청이 이미 진행 중입니다.');
     }
-    const [settings, apiKey] = await Promise.all([
-      settingsService.get(),
-      secureKeyService.get(),
-    ]);
+    const settings = await settingsService.get();
+    const apiKey = await secureKeyService.get(settings.ai.providerId);
     const provider = createProvider(settings.ai.providerId, {
       settings: settings.ai,
       apiKey: apiKey ?? undefined,

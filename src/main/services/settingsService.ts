@@ -22,6 +22,12 @@ function toPersisted(settings: AppSettings): PersistedSettings {
 }
 
 function mergeSettings(input: Partial<PersistedSettings> | undefined): AppSettings {
+  const hasModernAppearance =
+    Boolean(input) &&
+    ('interfaceFontSize' in input! ||
+      'interfaceFontFamily' in input! ||
+      'editorFontFamily' in input! ||
+      'editorLineHeight' in input!);
   const merged: AppSettings = {
     ...DEFAULT_SETTINGS,
     ...input,
@@ -42,7 +48,21 @@ function mergeSettings(input: Partial<PersistedSettings> | undefined): AppSettin
   };
 
   merged.autoSaveDelay = Math.min(10_000, Math.max(300, merged.autoSaveDelay));
-  merged.fontSize = Math.min(24, Math.max(12, merged.fontSize));
+  merged.interfaceFontSize = Math.min(
+    20,
+    Math.max(12, Number(merged.interfaceFontSize) || DEFAULT_SETTINGS.interfaceFontSize),
+  );
+  merged.fontSize = Math.min(
+    36,
+    Math.max(
+      hasModernAppearance ? 12 : DEFAULT_SETTINGS.fontSize,
+      Number(merged.fontSize) || DEFAULT_SETTINGS.fontSize,
+    ),
+  );
+  merged.editorLineHeight = Math.min(
+    2.2,
+    Math.max(1.4, Number(merged.editorLineHeight) || DEFAULT_SETTINGS.editorLineHeight),
+  );
   merged.ai.timeoutMs = Math.min(180_000, Math.max(5_000, merged.ai.timeoutMs));
   return merged;
 }
@@ -52,7 +72,9 @@ export class SettingsService {
 
   constructor(
     private readonly settingsPath: string,
-    private readonly hasApiKey: () => Promise<boolean>,
+    private readonly hasApiKey: (
+      providerId: AppSettings['ai']['providerId'],
+    ) => Promise<boolean>,
   ) {}
 
   async initialize(): Promise<void> {
@@ -65,11 +87,11 @@ export class SettingsService {
       }
       this.settings = structuredClone(DEFAULT_SETTINGS);
     }
-    this.settings.ai.hasApiKey = await this.hasApiKey();
+    this.settings.ai.hasApiKey = await this.hasApiKey(this.settings.ai.providerId);
   }
 
   async get(): Promise<AppSettings> {
-    this.settings.ai.hasApiKey = await this.hasApiKey();
+    this.settings.ai.hasApiKey = await this.hasApiKey(this.settings.ai.providerId);
     return structuredClone(this.settings);
   }
 
@@ -82,7 +104,7 @@ export class SettingsService {
         ...patch.ai,
       },
     });
-    this.settings.ai.hasApiKey = await this.hasApiKey();
+    this.settings.ai.hasApiKey = await this.hasApiKey(this.settings.ai.providerId);
     await this.persist();
     return this.get();
   }

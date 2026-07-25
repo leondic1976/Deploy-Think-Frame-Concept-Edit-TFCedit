@@ -30,6 +30,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "site:check": "node --check site/script.js",
+    "smoke:app": "node scripts/smoke-app.mjs",
+    "smoke:site": "node scripts/smoke-site.mjs",
     "check": "npm run lint && npm run typecheck && npm run site:check && npm test",
     "icons": "node scripts/generate-icons.mjs",
     "artifacts": "node scripts/collect-artifacts.mjs",

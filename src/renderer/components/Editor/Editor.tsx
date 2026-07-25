@@ -1,5 +1,10 @@
 import { useMemo, useState, type RefObject } from 'react';
 import type { SupportedExtension } from '../../../shared/contracts';
+import {
+  findLiteralMatch,
+  replaceAllLiteral,
+  replaceLiteralSelection,
+} from '../../utils/editorOperations';
 import { countWords } from '../../utils/formatting';
 
 interface EditorProps {
@@ -7,6 +12,9 @@ interface EditorProps {
   content: string;
   disabled: boolean;
   fontSize: number;
+  lineHeight: number;
+  readableLineLength: boolean;
+  spellCheck: boolean;
   findOpen: boolean;
   cursorPosition: number;
   textareaRef: RefObject<HTMLTextAreaElement | null>;
@@ -22,6 +30,9 @@ export function Editor({
   content,
   disabled,
   fontSize,
+  lineHeight,
+  readableLineLength,
+  spellCheck,
   findOpen,
   cursorPosition,
   textareaRef,
@@ -44,43 +55,40 @@ export function Editor({
   const selectMatch = (direction: 'next' | 'previous'): void => {
     if (!findQuery || !textareaRef.current) return;
     const editor = textareaRef.current;
-    const source = content.toLocaleLowerCase('ko-KR');
-    const query = findQuery.toLocaleLowerCase('ko-KR');
-    let index =
-      direction === 'next'
-        ? source.indexOf(query, editor.selectionEnd)
-        : source.lastIndexOf(query, Math.max(0, editor.selectionStart - 1));
-    if (index < 0) {
-      index = direction === 'next' ? source.indexOf(query) : source.lastIndexOf(query);
-    }
-    if (index < 0) return;
+    const match = findLiteralMatch(
+      content,
+      findQuery,
+      direction === 'next' ? editor.selectionEnd : editor.selectionStart,
+      direction,
+    );
+    if (!match) return;
     editor.focus();
-    editor.setSelectionRange(index, index + findQuery.length);
-    onSelect(index, index + findQuery.length);
+    editor.setSelectionRange(match.start, match.end);
+    onSelect(match.start, match.end);
   };
 
   const replaceSelection = (): void => {
     const editor = textareaRef.current;
     if (!editor || !findQuery) return;
-    const selected = content.slice(editor.selectionStart, editor.selectionEnd);
-    if (selected.toLocaleLowerCase('ko-KR') !== findQuery.toLocaleLowerCase('ko-KR')) {
+    const result = replaceLiteralSelection(content, findQuery, replacement, {
+      start: editor.selectionStart,
+      end: editor.selectionEnd,
+    });
+    if (!result) {
       selectMatch('next');
       return;
     }
-    const start = editor.selectionStart;
-    const end = editor.selectionEnd;
-    onChange(`${content.slice(0, start)}${replacement}${content.slice(end)}`);
+    onChange(result.content);
     window.setTimeout(() => {
       editor.focus();
-      editor.setSelectionRange(start, start + replacement.length);
-      onSelect(start, start + replacement.length);
+      editor.setSelectionRange(result.selection.start, result.selection.end);
+      onSelect(result.selection.start, result.selection.end);
     }, 0);
   };
 
   const replaceAll = (): void => {
     if (!findQuery) return;
-    const escaped = findQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    onChange(content.replace(new RegExp(escaped, 'giu'), replacement));
+    onChange(replaceAllLiteral(content, findQuery, replacement).content);
   };
 
   if (disabled) {
@@ -154,8 +162,8 @@ export function Editor({
       )}
       <textarea
         ref={textareaRef}
-        className="editor-textarea"
-        style={{ fontSize }}
+        className={`editor-textarea ${readableLineLength ? 'readable-line-length' : ''}`}
+        style={{ fontSize, lineHeight }}
         value={content}
         onChange={(event) => onChange(event.target.value)}
         onSelect={(event) => {
@@ -164,7 +172,7 @@ export function Editor({
         }}
         placeholder="자유롭게 생각을 입력하세요…"
         aria-label="문서 편집기"
-        spellCheck
+        spellCheck={spellCheck}
         wrap="on"
       />
       <footer className="editor-status">

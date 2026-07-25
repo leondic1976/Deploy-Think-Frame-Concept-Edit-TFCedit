@@ -20,6 +20,15 @@
   --radius: 12px;
   --radius-lg: 16px;
   --titlebar-height: 48px;
+  --interface-font-size: 14px;
+  --font-ui-xs: max(11px, calc(var(--interface-font-size) - 3px));
+  --font-ui-sm: max(12px, calc(var(--interface-font-size) - 2px));
+  --font-ui-md: max(13px, calc(var(--interface-font-size) - 1px));
+  --font-ui-base: var(--interface-font-size);
+  --font-ui-lg: calc(var(--interface-font-size) + 1px);
+  --font-ui-xl: calc(var(--interface-font-size) + 6px);
   --font-sans: 'Segoe UI Variable', 'Pretendard', 'Noto Sans KR', sans-serif;
   --font-code: 'Cascadia Code', Consolas, monospace;
+  --font-interface: var(--font-sans);
+  --font-editor: var(--font-sans);
 }

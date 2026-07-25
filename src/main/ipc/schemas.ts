@@ -37,7 +37,13 @@ export const settingsPatchSchema = z
     autoSave: z.boolean().optional(),
     autoSaveDelay: z.number().int().min(300).max(10_000).optional(),
     theme: z.enum(['system', 'light', 'dark']).optional(),
-    fontSize: z.number().int().min(12).max(24).optional(),
+    interfaceFontSize: z.number().int().min(12).max(20).optional(),
+    interfaceFontFamily: z.enum(['system', 'sans', 'serif']).optional(),
+    fontSize: z.number().int().min(12).max(36).optional(),
+    editorFontFamily: z.enum(['system', 'sans', 'serif', 'monospace']).optional(),
+    editorLineHeight: z.number().min(1.4).max(2.2).optional(),
+    readableLineLength: z.boolean().optional(),
+    spellCheck: z.boolean().optional(),
     ai: z
       .object({
         providerName: z.string().min(1).max(100).optional(),
@@ -50,6 +56,15 @@ export const settingsPatchSchema = z
       .optional(),
   })
   .strict();
+
+export const apiKeyInputSchema = z
+  .object({
+    providerId: aiProviderIdSchema,
+    apiKey: z.string().trim().min(1).max(10_000),
+  })
+  .strict();
+
+export const apiKeyProviderSchema = z.object({ providerId: aiProviderIdSchema }).strict();
 
 export const analyzeRequestSchema = z
   .object({

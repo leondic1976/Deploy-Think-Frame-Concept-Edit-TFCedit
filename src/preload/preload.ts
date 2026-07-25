@@ -28,8 +28,10 @@ const api: ThinkFrameAPI = {
   settings: {
     get: () => ipcRenderer.invoke(IPC.SETTINGS_GET),
     update: (patch) => ipcRenderer.invoke(IPC.SETTINGS_UPDATE, patch),
-    saveApiKey: (apiKey) => ipcRenderer.invoke(IPC.SETTINGS_SAVE_KEY, apiKey),
-    deleteApiKey: () => ipcRenderer.invoke(IPC.SETTINGS_DELETE_KEY),
+    saveApiKey: (providerId, apiKey) =>
+      ipcRenderer.invoke(IPC.SETTINGS_SAVE_KEY, { providerId, apiKey }),
+    deleteApiKey: (providerId) =>
+      ipcRenderer.invoke(IPC.SETTINGS_DELETE_KEY, { providerId }),
     testAIConnection: () => ipcRenderer.invoke(IPC.SETTINGS_TEST_AI),
   },
   ai: {

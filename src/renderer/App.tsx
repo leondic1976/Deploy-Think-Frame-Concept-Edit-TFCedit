@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type {
   AIStage,
+  EditorFontFamily,
   FileDocument,
   FileSummary,
+  InterfaceFontFamily,
   SettingsPatch,
   SupportedExtension,
 } from '../shared/contracts';
@@ -20,6 +22,17 @@ const STAGE_NAMES: Record<AIStage, string> = {
   validate: '개념검증',
   realize: '현실화',
   prompt: '최종 프롬프트',
+};
+
+const INTERFACE_FONT_STACKS: Record<InterfaceFontFamily, string> = {
+  system: "'Segoe UI Variable', 'Pretendard', 'Noto Sans KR', sans-serif",
+  sans: "'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif",
+  serif: "'Noto Serif KR', 'Malgun Myeongjo', serif",
+};
+
+const EDITOR_FONT_STACKS: Record<EditorFontFamily, string> = {
+  ...INTERFACE_FONT_STACKS,
+  monospace: "'Cascadia Code', 'D2Coding', Consolas, monospace",
 };
 
 export function App(): React.JSX.Element {
@@ -85,6 +98,18 @@ export function App(): React.JSX.Element {
     document.documentElement.dataset.theme = state.settings.theme;
     document.documentElement.style.colorScheme =
       state.settings.theme === 'system' ? 'light dark' : state.settings.theme;
+    document.documentElement.style.setProperty(
+      '--interface-font-size',
+      `${state.settings.interfaceFontSize}px`,
+    );
+    document.documentElement.style.setProperty(
+      '--font-interface',
+      INTERFACE_FONT_STACKS[state.settings.interfaceFontFamily],
+    );
+    document.documentElement.style.setProperty(
+      '--font-editor',
+      EDITOR_FONT_STACKS[state.settings.editorFontFamily],
+    );
   }, [state.settings]);
 
   const saveDocument = useCallback(async (): Promise<boolean> => {
@@ -444,7 +469,10 @@ export function App(): React.JSX.Element {
           documentName={state.document?.name ?? ''}
           content={state.content}
           disabled={!state.document}
-          fontSize={state.settings?.fontSize ?? 15}
+          fontSize={state.settings?.fontSize ?? 18}
+          lineHeight={state.settings?.editorLineHeight ?? 1.75}
+          readableLineLength={state.settings?.readableLineLength ?? true}
+          spellCheck={state.settings?.spellCheck ?? true}
           findOpen={findOpen}
           cursorPosition={state.selection.end}
           textareaRef={textareaRef}
@@ -490,12 +518,12 @@ export function App(): React.JSX.Element {
           onClose={() => dispatch({ type: 'settingsOpen', value: false })}
           onSave={updateSettings}
           onSelectWorkspace={selectWorkspace}
-          onSaveApiKey={async (key) => {
-            await window.thinkframe.settings.saveApiKey(key);
+          onSaveApiKey={async (providerId, key) => {
+            await window.thinkframe.settings.saveApiKey(providerId, key);
             await refreshSettings();
           }}
-          onDeleteApiKey={async () => {
-            await window.thinkframe.settings.deleteApiKey();
+          onDeleteApiKey={async (providerId) => {
+            await window.thinkframe.settings.deleteApiKey(providerId);
             await refreshSettings();
           }}
           onTestConnection={async () => {

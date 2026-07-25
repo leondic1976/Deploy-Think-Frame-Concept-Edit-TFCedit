@@ -3,7 +3,7 @@ import { IPC } from '../../shared/ipcChannels';
 import type { SecureKeyService } from '../services/secureKeyService';
 import type { SettingsService } from '../services/settingsService';
 import { createProvider } from '../services/ai/providerFactory';
-import { settingsPatchSchema } from './schemas';
+import { apiKeyInputSchema, apiKeyProviderSchema, settingsPatchSchema } from './schemas';
 
 export function registerSettingsHandlers(
   settingsService: SettingsService,
@@ -16,17 +16,18 @@ export function registerSettingsHandlers(
   );
 
   ipcMain.handle(IPC.SETTINGS_SAVE_KEY, async (_event, input: unknown) => {
-    if (typeof input !== 'string') throw new Error('올바르지 않은 API 키입니다.');
-    await secureKeyService.save(input);
+    const parsed = apiKeyInputSchema.parse(input);
+    await secureKeyService.save(parsed.providerId, parsed.apiKey);
   });
 
-  ipcMain.handle(IPC.SETTINGS_DELETE_KEY, async () => secureKeyService.delete());
+  ipcMain.handle(IPC.SETTINGS_DELETE_KEY, async (_event, input: unknown) => {
+    const parsed = apiKeyProviderSchema.parse(input);
+    await secureKeyService.delete(parsed.providerId);
+  });
 
   ipcMain.handle(IPC.SETTINGS_TEST_AI, async () => {
-    const [settings, apiKey] = await Promise.all([
-      settingsService.get(),
-      secureKeyService.get(),
-    ]);
+    const settings = await settingsService.get();
+    const apiKey = await secureKeyService.get(settings.ai.providerId);
     const provider = createProvider(settings.ai.providerId, {
       settings: settings.ai,
       apiKey: apiKey ?? undefined,

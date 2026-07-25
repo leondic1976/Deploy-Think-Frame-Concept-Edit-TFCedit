@@ -53,9 +53,11 @@ app
     );
     const settingsService = new SettingsService(
       path.join(app.getPath('userData'), 'settings.json'),
-      () => secureKeyService.has(),
+      (providerId) => secureKeyService.has(providerId),
     );
     await settingsService.initialize();
+    const initialSettings = await settingsService.get();
+    await secureKeyService.migrateLegacy(initialSettings.ai.providerId);
 
     const workspaceService = new WorkspaceService();
     const settings = await settingsService.get();

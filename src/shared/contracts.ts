@@ -2,6 +2,8 @@ import type { AIProviderId } from './aiProviders';
 
 export type SupportedExtension = '.md' | '.txt';
 export type ThemeMode = 'system' | 'light' | 'dark';
+export type InterfaceFontFamily = 'system' | 'sans' | 'serif';
+export type EditorFontFamily = InterfaceFontFamily | 'monospace';
 export type AIStage = 'organize' | 'structure' | 'validate' | 'realize' | 'prompt';
 
 export interface FileSummary {
@@ -39,7 +41,13 @@ export interface AppSettings {
   autoSave: boolean;
   autoSaveDelay: number;
   theme: ThemeMode;
+  interfaceFontSize: number;
+  interfaceFontFamily: InterfaceFontFamily;
   fontSize: number;
+  editorFontFamily: EditorFontFamily;
+  editorLineHeight: number;
+  readableLineLength: boolean;
+  spellCheck: boolean;
   ai: {
     providerId: AIProviderId;
     providerName: string;
@@ -125,8 +133,8 @@ export interface ThinkFrameAPI {
   settings: {
     get(): Promise<AppSettings>;
     update(patch: SettingsPatch): Promise<AppSettings>;
-    saveApiKey(apiKey: string): Promise<void>;
-    deleteApiKey(): Promise<void>;
+    saveApiKey(providerId: AIProviderId, apiKey: string): Promise<void>;
+    deleteApiKey(providerId: AIProviderId): Promise<void>;
     testAIConnection(): Promise<ConnectionTestResult>;
   };
   ai: {
@@ -134,10 +142,7 @@ export interface ThinkFrameAPI {
     cancel(requestId: string): Promise<void>;
   };
   external: {
-    copyAndOpen(
-      urlKey: AIProviderId,
-      text: string,
-    ): Promise<void>;
+    copyAndOpen(urlKey: AIProviderId, text: string): Promise<void>;
     copy(text: string): Promise<void>;
   };
 }

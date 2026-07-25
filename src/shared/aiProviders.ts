@@ -4,6 +4,8 @@ export const AI_PROVIDER_IDS = [
   'gemini',
   'grok',
   'metaai',
+  'groq',
+  'openrouter-free',
   'openrouter',
   'ollama',
   'qwen',
@@ -15,11 +17,7 @@ export const AI_PROVIDER_IDS = [
 
 export type AIProviderId = (typeof AI_PROVIDER_IDS)[number];
 
-export type AIProviderMode =
-  | 'openai'
-  | 'anthropic'
-  | 'gemini-openai'
-  | 'ollama';
+export type AIProviderMode = 'openai' | 'anthropic' | 'gemini-openai' | 'ollama';
 
 export interface AIProviderDescriptor {
   id: AIProviderId;
@@ -29,6 +27,8 @@ export interface AIProviderDescriptor {
   baseUrl: string;
   model: string;
   requiresApiKey: boolean;
+  freeTier?: string;
+  setupUrl?: string;
 }
 
 export const AI_PROVIDER_CATALOG: AIProviderDescriptor[] = [
@@ -52,12 +52,14 @@ export const AI_PROVIDER_CATALOG: AIProviderDescriptor[] = [
   },
   {
     id: 'gemini',
-    name: 'Gemini',
+    name: 'Gemini 무료 등급',
     mode: 'gemini-openai',
     website: 'https://gemini.google.com/app',
     baseUrl: 'https://generativelanguage.googleapis.com/v1beta/openai',
-    model: 'gemini-2.0-flash',
+    model: 'gemini-2.5-flash-lite',
     requiresApiKey: true,
+    freeTier: 'Google AI Studio 키로 무료 한도 내에서 사용할 수 있습니다.',
+    setupUrl: 'https://aistudio.google.com/apikey',
   },
   {
     id: 'grok',
@@ -78,6 +80,28 @@ export const AI_PROVIDER_CATALOG: AIProviderDescriptor[] = [
     requiresApiKey: true,
   },
   {
+    id: 'groq',
+    name: 'Groq 무료 플랜',
+    mode: 'openai',
+    website: 'https://console.groq.com/',
+    baseUrl: 'https://api.groq.com/openai/v1',
+    model: 'openai/gpt-oss-20b',
+    requiresApiKey: true,
+    freeTier: '무료 개발자 한도 내에서 빠른 추론을 사용할 수 있습니다.',
+    setupUrl: 'https://console.groq.com/keys',
+  },
+  {
+    id: 'openrouter-free',
+    name: 'OpenRouter 무료 모델',
+    mode: 'openai',
+    website: 'https://openrouter.ai/',
+    baseUrl: 'https://openrouter.ai/api/v1',
+    model: 'openrouter/free',
+    requiresApiKey: true,
+    freeTier: '무료 라우터가 현재 사용 가능한 무료 모델을 자동으로 선택합니다.',
+    setupUrl: 'https://openrouter.ai/settings/keys',
+  },
+  {
     id: 'openrouter',
     name: 'OpenRouter',
     mode: 'openai',
@@ -88,12 +112,14 @@ export const AI_PROVIDER_CATALOG: AIProviderDescriptor[] = [
   },
   {
     id: 'ollama',
-    name: 'Ollama',
+    name: 'Ollama 로컬 무료',
     mode: 'ollama',
     website: 'http://127.0.0.1:11434',
     baseUrl: 'http://127.0.0.1:11434',
     model: 'llama3.1',
     requiresApiKey: false,
+    freeTier: '내 컴퓨터에서 실행하며 API 사용료와 API 키가 필요 없습니다.',
+    setupUrl: 'https://ollama.com/download',
   },
   {
     id: 'qwen',

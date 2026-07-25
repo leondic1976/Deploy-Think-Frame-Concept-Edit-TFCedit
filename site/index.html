@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Markdown과 텍스트를 편집하고 생각을 구조화하는 데스크톱 프로그램 ThinkFrame"
+      content="로컬 문서를 쓰고, AI로 생각을 구조화하는 데스크톱 에디터 ThinkFrame"
     />
-    <meta name="theme-color" content="#17142d" />
+    <meta name="theme-color" content="#07162f" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="ThinkFrame — 생각을 실행 가능한 문서로" />
     <meta
       property="og:description"
-      content="Markdown·TXT 편집과 단계별 AI 사고 보조를 제공하는 로컬 중심 데스크톱 프로그램"
+      content="Markdown·TXT 편집, 맞춤형 글쓰기 환경, 단계별 AI 사고 보조를 하나의 로컬 앱에서."
     />
     <meta
       property="og:image"
@@ -24,179 +24,199 @@
     <script src="script.js" defer></script>
   </head>
   <body>
-    <header class="topbar">
-      <a class="brand" href="#" aria-label="ThinkFrame 홈">
-        <img src="icon.svg" alt="" width="34" height="34" />
-        <span>ThinkFrame</span>
-      </a>
-      <nav aria-label="주요 메뉴">
-        <a href="#features">소개</a>
-        <a href="#screen">실제 화면</a>
-        <a href="#guide">사용법</a>
-        <a href="#download">다운로드</a>
-        <a href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit"
-          >GitHub</a
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="ThinkFrame 홈">
+          <span class="brand-symbol"
+            ><img src="icon.svg" alt="" width="24" height="24"
+          /></span>
+          <span>ThinkFrame</span>
+        </a>
+        <nav aria-label="주요 메뉴">
+          <a href="#features">기능</a>
+          <a href="#demo">실제 영상</a>
+          <a href="#screen">제품 화면</a>
+          <a href="#download">다운로드</a>
+        </nav>
+        <a
+          class="github-link"
+          href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit"
         >
-      </nav>
-    </header>
+          GitHub <span aria-hidden="true">↗</span>
+        </a>
+      </header>
 
-    <main>
-      <section class="hero">
-        <div class="hero-copy">
-          <div class="eyebrow">
-            <span class="status-dot"></span>
-            <span id="release-label">최신 안정 버전 v0.3.0</span>
-          </div>
-          <h1>
-            <span class="headline-line">흩어진 생각을</span>
-            <span class="headline-line accent">실행 가능한 문서로.</span>
-          </h1>
-          <p>
-            Markdown과 일반 텍스트를 편집하고, AI 사고 도우미로 체계화부터 최종
-            프롬프트까지 한곳에서 완성하세요.
-          </p>
-          <div class="hero-actions">
-            <a class="button primary" href="#download">내 운영체제용 다운로드</a>
-            <a
-              class="button secondary"
-              href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/latest"
-              >릴리스 보기</a
-            >
-          </div>
-          <div class="trust-row" aria-label="프로그램 특성">
-            <span>로컬 문서</span>
-            <span>Markdown · TXT</span>
-            <span>Windows · macOS · Linux</span>
-          </div>
-        </div>
-
-        <figure class="app-preview actual-preview">
-          <div class="demo-frame">
-            <div class="demo-topbar">
-              <div class="demo-window">
-                <span class="demo-dot"></span>
-                <span class="demo-dot"></span>
-                <span class="demo-dot"></span>
+      <main id="top">
+        <section class="hero">
+          <div class="hero-glow" aria-hidden="true"></div>
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <div class="release-pill">
+                <span class="status-dot"></span>
+                <span id="release-label">최신 안정 버전 v0.3.0</span>
+                <span aria-hidden="true">→</span>
               </div>
-              <span class="demo-title nowrap-text">새 문서 · 편집 · 자동 저장</span>
-              <span class="demo-live nowrap-text">MP4 · LOOP</span>
+              <h1>생각이 머무는 곳에서<br /><em>바로 실행으로.</em></h1>
+              <p class="hero-description">
+                Markdown과 TXT를 빠르게 쓰고, 단계별 AI 사고 도우미로 흩어진 아이디어를
+                검증 가능한 문서와 프롬프트로 발전시키세요.
+              </p>
+              <div class="hero-actions">
+                <a class="button primary" href="#download">
+                  무료로 다운로드
+                  <span aria-hidden="true">↓</span>
+                </a>
+                <a class="button ghost" href="#demo">
+                  실제 작동 보기
+                  <span class="play-icon" aria-hidden="true">▶</span>
+                </a>
+              </div>
+              <ul class="hero-facts" aria-label="제품 특성">
+                <li><span>✓</span> 로컬 파일 우선</li>
+                <li><span>✓</span> Markdown · TXT</li>
+                <li><span>✓</span> 무료 AI 선택지</li>
+              </ul>
             </div>
+
+            <div class="hero-product">
+              <div class="product-window">
+                <div class="window-bar">
+                  <div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+                  <span>ThinkFrame · writing-workflow.md</span>
+                  <span class="recording-status"><i></i> 실제 녹화</span>
+                </div>
+                <video
+                  class="product-video"
+                  width="1280"
+                  height="800"
+                  poster="images/thinkframe-writing-workflow-poster.jpg"
+                  aria-label="ThinkFrame에서 Markdown 문서를 만들고 실제로 입력하고 자동 저장하는 기능 영상"
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="metadata"
+                >
+                  <source src="videos/thinkframe-writing-workflow.mp4" type="video/mp4" />
+                  브라우저에서 ThinkFrame 실제 사용 영상을 재생할 수 없습니다.
+                </video>
+              </div>
+              <div class="product-caption">
+                <span><i></i> 실제 설치본에서 반복 재생 중</span>
+                <span id="hero-version">v0.3.0</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="proof-strip" aria-label="주요 지원 기능">
+          <p>한 흐름 안에서</p>
+          <div>
+            <span>로컬 작업공간</span><i></i> <span>실시간 자동 저장</span><i></i>
+            <span>찾기와 안전한 바꾸기</span><i></i>
+            <span>단계별 AI 분석</span>
+          </div>
+        </section>
+
+        <section class="section features" id="features">
+          <div class="section-heading">
+            <span class="kicker">ONE FOCUSED WORKSPACE</span>
+            <h2>글쓰기에 필요한 것만,<br />한 화면에 정돈했습니다.</h2>
+            <p>
+              문서를 불러오고, 생각을 쓰고, 검증하고, 결과를 다시 문서로 가져오는 흐름이
+              끊기지 않습니다.
+            </p>
+          </div>
+
+          <div class="bento-grid">
+            <article class="bento-card bento-editor">
+              <div class="card-icon" aria-hidden="true">⌁</div>
+              <span class="card-label">LOCAL EDITOR</span>
+              <h3>파일은 그대로, 편집 경험은 더 깊게.</h3>
+              <p>
+                기존 폴더의 Markdown과 TXT를 바로 열고 자동 저장, 찾기·바꾸기, 복제와 이름
+                변경을 사용합니다.
+              </p>
+              <div class="editor-mini" aria-hidden="true">
+                <div class="mini-sidebar">
+                  <i></i><i class="active"></i><i></i><i></i>
+                </div>
+                <div class="mini-document">
+                  <strong>제품 아이디어</strong>
+                  <span></span><span></span><span class="short"></span>
+                  <b>자동 저장됨</b>
+                </div>
+              </div>
+            </article>
+
+            <article class="bento-card bento-type">
+              <div class="card-icon" aria-hidden="true">Aa</div>
+              <span class="card-label">READ YOUR WAY</span>
+              <h3>작은 글씨에 맞추지 마세요.</h3>
+              <p>
+                인터페이스와 본문 크기, 글꼴, 줄 간격, 읽기 폭을 각각 눈에 맞게
+                설정합니다.
+              </p>
+              <div class="type-scale" aria-hidden="true">
+                <span>Aa <small>12</small></span>
+                <span>Aa <small>18</small></span>
+                <span>Aa <small>24</small></span>
+              </div>
+            </article>
+
+            <article class="bento-card bento-ai">
+              <div class="card-icon" aria-hidden="true">✦</div>
+              <span class="card-label">BRING YOUR AI</span>
+              <h3>유료 구독 없이도 시작.</h3>
+              <p>
+                Gemini·Groq·OpenRouter의 무료 API 한도나 내 컴퓨터의 Ollama를 설정에서
+                선택할 수 있습니다.
+              </p>
+              <div class="provider-chips" aria-label="지원하는 무료 AI 선택지">
+                <span>Gemini</span>
+                <span>Groq</span>
+                <span>OpenRouter</span>
+                <span>Ollama</span>
+              </div>
+            </article>
+
+            <article class="bento-card bento-flow">
+              <div class="card-icon" aria-hidden="true">↗</div>
+              <span class="card-label">THOUGHT PIPELINE</span>
+              <h3>메모에서 실행안까지, 단계적으로.</h3>
+              <ol>
+                <li><b>01</b><span>체계화</span></li>
+                <li><b>02</b><span>구조화</span></li>
+                <li><b>03</b><span>개념검증</span></li>
+                <li><b>04</b><span>현실화</span></li>
+                <li><b>05</b><span>최종 프롬프트</span></li>
+              </ol>
+            </article>
+          </div>
+        </section>
+
+        <section class="section demo-section" id="demo">
+          <div class="demo-copy">
+            <span class="kicker">REAL PRODUCT, REAL WORKFLOW</span>
+            <h2>설명용 애니메이션이 아닌<br />실제 기능 영상입니다.</h2>
+            <p>
+              파일을 검색하고 문서를 연 뒤, 찾기와 모두 바꾸기를 실행하는 설치본의 실제
+              작동을 MP4로 반복 재생합니다.
+            </p>
+            <ul>
+              <li><span>01</span> 파일명으로 문서 검색</li>
+              <li><span>02</span> 문서 안의 텍스트 찾기</li>
+              <li><span>03</span> 일치 항목을 안전하게 모두 바꾸기</li>
+            </ul>
+          </div>
+          <div class="demo-stage">
+            <div class="code-label"><i></i> thinkframe-search-replace.mp4</div>
             <video
               class="demo-video"
               width="1280"
               height="800"
-              poster="images/thinkframe-writing-workflow-poster.jpg"
-              aria-label="ThinkFrame에서 새 Markdown 문서를 만들고 내용을 입력한 뒤 자동 저장되는 실제 사용 영상"
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="metadata"
-            >
-              <source src="videos/thinkframe-writing-workflow.mp4" type="video/mp4" />
-              브라우저에서 ThinkFrame 실제 사용 영상을 재생할 수 없습니다.
-            </video>
-          </div>
-          <figcaption>
-            <span></span>
-            <span class="nowrap-text"
-              >실제 설치본 녹화 · <span id="hero-version">v0.3.0</span></span
-            >
-          </figcaption>
-        </figure>
-      </section>
-
-      <section class="features section" id="features">
-        <div class="section-heading">
-          <span class="kicker">WRITE · THINK · REFINE</span>
-          <h2>텍스트 편집기의 속도, 사고 도구의 깊이.</h2>
-        </div>
-        <div class="feature-grid">
-          <article>
-            <span class="feature-number">01</span>
-            <h3>일반 텍스트 편집</h3>
-            <p>
-              Markdown과 TXT 문서를 만들고 찾기·바꾸기, 자동 저장, 문서 정리를 사용할 수
-              있습니다.
-            </p>
-          </article>
-          <article>
-            <span class="feature-number">02</span>
-            <h3>단계별 사고 보조</h3>
-            <p>
-              체계화, 구조화, 개념검증, 현실화를 거쳐 최종 작업 프롬프트로 발전시킵니다.
-            </p>
-          </article>
-          <article>
-            <span class="feature-number">03</span>
-            <h3>로컬 중심 설계</h3>
-            <p>
-              문서는 선택한 작업공간에 저장되며 AI 분석을 실행할 때만 설정한 API로
-              전송됩니다.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <section class="actual-screen section" id="screen">
-        <div class="section-heading centered">
-          <span class="kicker">ACTUAL SCREEN</span>
-          <h2>설치된 ThinkFrame의 실제 화면.</h2>
-          <p>
-            별도의 디자인 목업이 아닌 Windows에 설치한 ThinkFrame
-            <span id="screen-version">v0.3.0</span>에서 데모 작업공간을 연 화면입니다.
-          </p>
-        </div>
-
-        <figure class="screen-frame">
-          <div class="screen-meta">
-            <span class="nowrap-text"><i></i> ThinkFrame 실제 실행 화면</span>
-            <span>Windows · <span id="screen-meta-version">v0.3.0</span></span>
-          </div>
-          <img
-            src="images/thinkframe-app.png"
-            alt="문서 목록, Markdown 편집기, 사고 도우미가 함께 표시된 ThinkFrame 실제 실행 화면"
-            width="1426"
-            height="893"
-            loading="lazy"
-          />
-          <figcaption>
-            <span><b>1</b> 문서 작업공간</span>
-            <span><b>2</b> Markdown·TXT 편집기</span>
-            <span><b>3</b> 단계별 사고 도우미</span>
-          </figcaption>
-        </figure>
-      </section>
-
-      <section class="guide section" id="guide">
-        <div class="guide-intro">
-          <div class="section-heading">
-            <span class="kicker">HOW TO USE</span>
-            <h2>폴더를 선택하고,<br />바로 기록하세요.</h2>
-          </div>
-          <p>
-            문서를 특별한 형식으로 옮길 필요가 없습니다. 기존 폴더를 작업공간으로 지정하면
-            그 안의 Markdown과 TXT 파일을 바로 편집할 수 있습니다.
-          </p>
-        </div>
-
-        <div class="guide-layout">
-          <div class="guide-video-shell">
-            <div class="guide-video-topbar">
-              <div class="guide-video-btns">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <span class="guide-video-title nowrap-text">파일 검색 · 찾기/바꾸기</span>
-              <span class="guide-video-live nowrap-text">MP4 · LOOP</span>
-            </div>
-            <video
-              class="guide-video"
-              width="1280"
-              height="800"
               poster="images/thinkframe-search-replace-poster.jpg"
-              aria-label="ThinkFrame에서 파일명을 검색하고 문서를 연 다음 찾기와 모두 바꾸기를 실행하는 실제 사용 영상"
+              aria-label="ThinkFrame에서 파일을 검색하고 문서의 텍스트를 찾아 모두 바꾸는 실제 기능 영상"
               autoplay
               muted
               loop
@@ -206,153 +226,188 @@
               <source src="videos/thinkframe-search-replace.mp4" type="video/mp4" />
               브라우저에서 ThinkFrame 실제 사용 영상을 재생할 수 없습니다.
             </video>
-          </div>
-
-          <ol class="guide-steps" id="guide-steps">
-            <li class="guide-step">
-              <span class="step-number">01</span>
-              <div>
-                <h3>설치하고 실행</h3>
-                <p>
-                  운영체제에 맞는 설치 파일을 내려받거나 아래 터미널 명령으로 설치한 뒤
-                  ThinkFrame을 실행합니다.
-                </p>
-              </div>
-            </li>
-            <li class="guide-step">
-              <span class="step-number">02</span>
-              <div>
-                <h3>작업폴더 확인</h3>
-                <p>
-                  설치 폴더의 <strong>workspaces</strong>를 바로 사용하거나 설정에서
-                  원하는 로컬 폴더로 변경합니다.
-                </p>
-              </div>
-            </li>
-            <li class="guide-step">
-              <span class="step-number">03</span>
-              <div>
-                <h3>문서 작성과 정리</h3>
-                <p>
-                  새 Markdown 또는 TXT 문서를 만들고 편집합니다. 자동 저장, 찾기·바꾸기,
-                  이름 변경과 복제를 지원합니다.
-                </p>
-              </div>
-            </li>
-            <li class="guide-step">
-              <span class="step-number">04</span>
-              <div>
-                <h3>사고 도우미 사용</h3>
-                <p>
-                  설정에 OpenAI 호환 API를 연결한 뒤 체계화·구조화·개념검증·현실화를
-                  실행하고, 필요한 결과만 문서에 반영합니다.
-                </p>
-              </div>
-            </li>
-          </ol>
-        </div>
-
-        <div class="workflow-note">
-          <span>문서 흐름</span>
-          <div>
-            <b>자유롭게 기록</b><i>→</i><b>생각 정리</b><i>→</i><b>실행안 검증</b><i>→</i
-            ><b>최종 프롬프트</b>
-          </div>
-        </div>
-      </section>
-
-      <section class="download section" id="download">
-        <div class="section-heading centered">
-          <span class="kicker">DOWNLOAD</span>
-          <h2>사용 중인 환경에서 시작하세요.</h2>
-          <p id="release-date">GitHub Releases에서 최신 안정 버전을 제공합니다.</p>
-        </div>
-
-        <div class="download-grid">
-          <article class="download-card" data-os="windows">
-            <div class="platform-mark">⊞</div>
-            <h3>Windows</h3>
-            <p>Windows 10/11 · x64</p>
-            <a
-              class="download-link"
-              data-asset="ThinkFrameSetup.exe"
-              href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/latest/download/ThinkFrameSetup.exe"
-              >Setup.exe 다운로드</a
-            >
-          </article>
-
-          <article class="download-card" data-os="macos">
-            <div class="platform-mark">●</div>
-            <h3>macOS</h3>
-            <p>Apple Silicon · Intel</p>
-            <div class="stacked-links">
-              <a
-                data-asset="ThinkFrame-macOS-arm64.dmg"
-                href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/latest/download/ThinkFrame-macOS-arm64.dmg"
-                >Apple Silicon DMG</a
-              >
-              <a
-                data-asset="ThinkFrame-macOS-x64.dmg"
-                href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/latest/download/ThinkFrame-macOS-x64.dmg"
-                >Intel DMG</a
-              >
+            <div class="demo-status">
+              <span><i></i> MP4 재생 중</span>
+              <span>자동 반복 · 음소거</span>
             </div>
-          </article>
+          </div>
+        </section>
 
-          <article class="download-card" data-os="linux">
-            <div class="platform-mark">&gt;_</div>
-            <h3>Linux</h3>
-            <p>Debian / Ubuntu · x64</p>
+        <section class="section actual-screen" id="screen">
+          <div class="section-heading centered">
+            <span class="kicker">THE WHOLE WORKSPACE</span>
+            <h2>생각의 앞뒤 맥락이 한눈에.</h2>
+            <p>
+              Windows에 설치한 ThinkFrame
+              <span id="screen-version">v0.3.0</span>의 실제 화면입니다.
+            </p>
+          </div>
+          <figure class="screen-frame">
+            <div class="screen-bar">
+              <div><i></i><i></i><i></i></div>
+              <span>ThinkFrame · Product workspace</span>
+              <span>Windows · <b id="screen-meta-version">v0.3.0</b></span>
+            </div>
+            <img
+              src="images/thinkframe-app.png"
+              alt="파일 목록, Markdown 편집기, 단계별 AI 사고 도우미를 함께 표시한 ThinkFrame 실제 실행 화면"
+              width="1426"
+              height="893"
+              loading="lazy"
+            />
+            <figcaption>
+              <span><b>01</b> 로컬 문서</span>
+              <span><b>02</b> 집중 편집기</span>
+              <span><b>03</b> AI 사고 도우미</span>
+            </figcaption>
+          </figure>
+        </section>
+
+        <section class="section privacy-section">
+          <div>
+            <span class="kicker">LOCAL FIRST</span>
+            <h2>내 문서는<br />내 폴더에 남습니다.</h2>
+          </div>
+          <div class="privacy-points">
+            <article>
+              <span aria-hidden="true">01</span>
+              <div>
+                <h3>열린 파일 형식</h3>
+                <p>Markdown과 TXT 그대로 저장해 다른 편집기에서도 언제든 엽니다.</p>
+              </div>
+            </article>
+            <article>
+              <span aria-hidden="true">02</span>
+              <div>
+                <h3>필요할 때만 전송</h3>
+                <p>AI 분석 버튼을 누른 선택 영역이나 문서만 설정한 API로 보냅니다.</p>
+              </div>
+            </article>
+            <article>
+              <span aria-hidden="true">03</span>
+              <div>
+                <h3>제공자별 암호화 키</h3>
+                <p>API 키는 제공자별로 나누어 운영체제 보안 저장소에 보관합니다.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section download" id="download">
+          <div class="download-heading">
+            <div>
+              <span class="kicker">DOWNLOAD</span>
+              <h2>지금 쓰는 환경에서<br />바로 시작하세요.</h2>
+            </div>
+            <p id="release-date">GitHub Releases에서 최신 안정 버전을 제공합니다.</p>
+          </div>
+
+          <div class="download-grid">
+            <article class="download-card" data-os="windows">
+              <div class="platform-row">
+                <span class="platform-icon">⊞</span>
+                <span class="recommend-label">추천</span>
+              </div>
+              <h3>Windows</h3>
+              <p>Windows 10/11 · x64</p>
+              <a
+                data-asset="ThinkFrameSetup.exe"
+                href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/latest/download/ThinkFrameSetup.exe"
+              >
+                Setup.exe 받기 <span>↓</span>
+              </a>
+            </article>
+            <article class="download-card" data-os="macos">
+              <div class="platform-row"><span class="platform-icon">●</span></div>
+              <h3>macOS</h3>
+              <p>Apple Silicon · Intel</p>
+              <div class="stacked-links">
+                <a
+                  data-asset="ThinkFrame-macOS-arm64.dmg"
+                  href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/latest/download/ThinkFrame-macOS-arm64.dmg"
+                  >Apple Silicon DMG <span>↓</span></a
+                >
+                <a
+                  data-asset="ThinkFrame-macOS-x64.dmg"
+                  href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/latest/download/ThinkFrame-macOS-x64.dmg"
+                  >Intel DMG <span>↓</span></a
+                >
+              </div>
+            </article>
+            <article class="download-card" data-os="linux">
+              <div class="platform-row"><span class="platform-icon">&gt;_</span></div>
+              <h3>Linux</h3>
+              <p>Debian / Ubuntu · x64</p>
+              <a
+                data-asset="ThinkFrame-linux-x64.deb"
+                href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/latest/download/ThinkFrame-linux-x64.deb"
+              >
+                DEB 받기 <span>↓</span>
+              </a>
+            </article>
+          </div>
+
+          <div class="terminal-install">
+            <div class="terminal-top">
+              <span><i></i><i></i><i></i></span>
+              <div class="terminal-tabs" role="tablist" aria-label="터미널 설치 명령">
+                <button
+                  class="terminal-tab active"
+                  data-command="windows"
+                  role="tab"
+                  aria-selected="true"
+                >
+                  PowerShell
+                </button>
+                <button
+                  class="terminal-tab"
+                  data-command="unix"
+                  role="tab"
+                  aria-selected="false"
+                >
+                  Terminal
+                </button>
+              </div>
+            </div>
+            <div class="command-row">
+              <code id="install-command"
+                >$s="$env:TEMP\install-thinkframe.ps1"; iwr
+                "https://raw.githubusercontent.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/main/install.ps1"
+                -OutFile $s; powershell -ExecutionPolicy Bypass -File $s</code
+              >
+              <button id="copy-command" type="button">복사</button>
+            </div>
+            <p><span>✓</span> 설치 전에 릴리스의 SHA-256 체크섬을 자동 검증합니다.</p>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <div class="footer-main">
+          <div>
+            <a class="brand" href="#top">
+              <span class="brand-symbol"
+                ><img src="icon.svg" alt="" width="24" height="24"
+              /></span>
+              <span>ThinkFrame</span>
+            </a>
+            <p>생각을 쓰고, 검증하고, 실행 가능한 문서로.</p>
+          </div>
+          <div class="footer-links">
+            <a href="#features">기능</a>
+            <a href="#demo">실제 영상</a>
+            <a href="#download">다운로드</a>
             <a
-              class="download-link"
-              data-asset="ThinkFrame-linux-x64.deb"
-              href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/latest/download/ThinkFrame-linux-x64.deb"
-              >DEB 다운로드</a
+              href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/issues"
+              >문제 신고</a
             >
-          </article>
-        </div>
-
-        <div class="terminal-install">
-          <div class="terminal-tabs" role="tablist" aria-label="터미널 설치 명령">
-            <button class="terminal-tab active" data-command="windows" role="tab">
-              Windows
-            </button>
-            <button class="terminal-tab" data-command="unix" role="tab">
-              macOS · Linux
-            </button>
           </div>
-          <div class="command-row">
-            <code id="install-command"
-              >$s="$env:TEMP\install-thinkframe.ps1"; iwr
-              "https://raw.githubusercontent.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/main/install.ps1"
-              -OutFile $s; powershell -ExecutionPolicy Bypass -File $s</code
-            >
-            <button id="copy-command" type="button">복사</button>
-          </div>
-          <p>설치 전에 릴리스의 SHA-256 체크섬을 자동으로 검증합니다.</p>
         </div>
-      </section>
-    </main>
-
-    <footer>
-      <div class="brand">
-        <img src="icon.svg" alt="" width="30" height="30" />
-        <span>ThinkFrame</span>
-      </div>
-      <div class="footer-links">
-        <a
-          href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases"
-          >모든 버전</a
-        >
-        <a
-          href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/blob/main/README.md"
-          >사용 방법</a
-        >
-        <a
-          href="https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/issues"
-          >문제 신고</a
-        >
-      </div>
-    </footer>
+        <div class="footer-bottom">
+          <span>© 2026 ThinkFrame</span>
+          <span>Open source on GitHub · main</span>
+        </div>
+      </footer>
+    </div>
   </body>
 </html>

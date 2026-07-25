@@ -36,7 +36,7 @@ export interface AppState {
   settingsOpen: boolean;
 }
 
-const initialState: AppState = {
+export const initialState: AppState = {
   appInfo: null,
   settings: null,
   files: [],
@@ -56,7 +56,7 @@ const initialState: AppState = {
   settingsOpen: false,
 };
 
-type Action =
+export type AppAction =
   | { type: 'initialized'; settings: AppSettings; appInfo: AppInfo }
   | { type: 'settings'; settings: AppSettings }
   | { type: 'files'; files: FileSummary[] }
@@ -76,7 +76,7 @@ type Action =
   | { type: 'toggleAssistant' }
   | { type: 'settingsOpen'; value: boolean };
 
-function reducer(state: AppState, action: Action): AppState {
+export function appReducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
     case 'initialized':
       return { ...state, settings: action.settings, appInfo: action.appInfo };
@@ -107,7 +107,7 @@ function reducer(state: AppState, action: Action): AppState {
         document: state.document
           ? { ...state.document, modifiedAt: action.modifiedAt }
           : null,
-        saveStatus: 'saved',
+        saveStatus: state.content === action.content ? 'saved' : 'dirty',
       };
     case 'error':
       return { ...state, error: action.message };
@@ -138,10 +138,10 @@ function reducer(state: AppState, action: Action): AppState {
 }
 
 const StateContext = createContext<AppState | null>(null);
-const DispatchContext = createContext<Dispatch<Action> | null>(null);
+const DispatchContext = createContext<Dispatch<AppAction> | null>(null);
 
 export function AppStoreProvider({ children }: PropsWithChildren): React.JSX.Element {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(appReducer, initialState);
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>{children}</DispatchContext.Provider>
@@ -155,7 +155,7 @@ export function useAppState(): AppState {
   return value;
 }
 
-export function useAppDispatch(): Dispatch<Action> {
+export function useAppDispatch(): Dispatch<AppAction> {
   const value = useContext(DispatchContext);
   if (!value) throw new Error('AppStoreProvider가 필요합니다.');
   return value;

@@ -39,7 +39,7 @@ function getCurrentReleaseVersionFallback() {
   const releaseLabel = document.querySelector('#release-label');
   if (!releaseLabel) return null;
   const match = releaseLabel.textContent?.match(/v?\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?/);
-  return match ? match[0].startsWith('v') ? match[0] : `v${match[0]}` : null;
+  return match ? (match[0].startsWith('v') ? match[0] : `v${match[0]}`) : null;
 }
 
 function detectOperatingSystem() {
@@ -70,7 +70,9 @@ async function loadLatestRelease() {
     if (!response.ok) return;
 
     const release = await response.json();
-    setVersionText(release.tag_name);
+    if (typeof release.tag_name === 'string') {
+      setVersionText(release.tag_name);
+    }
 
     const published = new Intl.DateTimeFormat('ko-KR', {
       year: 'numeric',
@@ -80,7 +82,9 @@ async function loadLatestRelease() {
     setReleaseDate(published);
 
     const assets = new Map(
-      release.assets.map((asset) => [asset.name, asset.browser_download_url]),
+      Array.isArray(release.assets)
+        ? release.assets.map((asset) => [asset.name, asset.browser_download_url])
+        : [],
     );
     document.querySelectorAll('[data-asset]').forEach((link) => {
       const url = assets.get(link.dataset.asset);
@@ -95,23 +99,49 @@ async function loadLatestRelease() {
 
 document.querySelectorAll('.terminal-tab').forEach((tab) => {
   tab.addEventListener('click', () => {
-    document
-      .querySelectorAll('.terminal-tab')
-      .forEach((item) => item.classList.remove('active'));
+    document.querySelectorAll('.terminal-tab').forEach((item) => {
+      item.classList.remove('active');
+      item.setAttribute('aria-selected', 'false');
+    });
     tab.classList.add('active');
-    document.querySelector('#install-command').textContent =
-      commands[tab.dataset.command];
+    tab.setAttribute('aria-selected', 'true');
+    const command = document.querySelector('#install-command');
+    if (command && tab.dataset.command in commands) {
+      command.textContent = commands[tab.dataset.command];
+    }
   });
 });
 
-document.querySelector('#copy-command').addEventListener('click', async (event) => {
+async function copyText(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.setAttribute('readonly', '');
+  textarea.style.position = 'fixed';
+  textarea.style.opacity = '0';
+  document.body.append(textarea);
+  textarea.select();
+  const copied = document.execCommand('copy');
+  textarea.remove();
+  if (!copied) throw new Error('copy failed');
+}
+
+document.querySelector('#copy-command')?.addEventListener('click', async (event) => {
   const button = event.currentTarget;
-  const command = document.querySelector('#install-command').textContent;
-  await navigator.clipboard.writeText(command);
-  button.textContent = '완료';
+  const command = document.querySelector('#install-command')?.textContent?.trim();
+  if (!command) return;
+  try {
+    await copyText(command);
+    button.textContent = '복사됨';
+  } catch {
+    button.textContent = '직접 선택해 복사';
+  }
   window.setTimeout(() => {
     button.textContent = '복사';
-  }, 1400);
+  }, 1600);
 });
 
 showRecommendedDownload();

@@ -19,6 +19,8 @@ export function createProvider(
     case 'chatgpt':
     case 'grok':
     case 'metaai':
+    case 'groq':
+    case 'openrouter-free':
     case 'openrouter':
     case 'qwen':
     case 'moonshot':
@@ -30,4 +32,3 @@ export function createProvider(
       return new OpenAICompatibleProvider(options);
   }
 }
-
