@@ -92,7 +92,7 @@ jobs:
         run: npm run artifacts -- ${{ matrix.platform_id }} ${{ matrix.arch }}
 
       - name: Upload packages
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ThinkFrame-${{ matrix.platform }}-${{ matrix.arch }}
           path: release-assets/*
