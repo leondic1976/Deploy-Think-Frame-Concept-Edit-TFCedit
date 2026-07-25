@@ -24,7 +24,7 @@ $headers = @{
 $temporaryDirectory = Join-Path ([IO.Path]::GetTempPath()) (
   "ThinkFrameInstall-" + [Guid]::NewGuid().ToString("N")
 )
-New-Item -ItemType Directory -LiteralPath $temporaryDirectory | Out-Null
+[IO.Directory]::CreateDirectory($temporaryDirectory) | Out-Null
 
 try {
   Write-Host "ThinkFrame 릴리스 정보를 확인합니다..."
