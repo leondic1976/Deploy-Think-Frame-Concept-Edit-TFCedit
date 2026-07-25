@@ -17,19 +17,19 @@ ThinkFrame은 로컬 Markdown·TXT 문서를 편집하고, 작성한 생각을 A
 최신 버전 설치:
 
 ```powershell
-$script="$env:TEMP\install-thinkframe.ps1"; Invoke-WebRequest "https://raw.githubusercontent.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/main/install.ps1" -OutFile $script; & $script
+$script="$env:TEMP\install-thinkframe.ps1"; Invoke-WebRequest "https://raw.githubusercontent.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/main/install.ps1" -OutFile $script; powershell.exe -NoProfile -ExecutionPolicy Bypass -File $script
 ```
 
 화면 없이 설치:
 
 ```powershell
-$script="$env:TEMP\install-thinkframe.ps1"; Invoke-WebRequest "https://raw.githubusercontent.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/main/install.ps1" -OutFile $script; & $script -Silent
+$script="$env:TEMP\install-thinkframe.ps1"; Invoke-WebRequest "https://raw.githubusercontent.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/main/install.ps1" -OutFile $script; powershell.exe -NoProfile -ExecutionPolicy Bypass -File $script -Silent
 ```
 
 특정 버전 설치:
 
 ```powershell
-& "$env:TEMP\install-thinkframe.ps1" -Version 0.1.1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$env:TEMP\install-thinkframe.ps1" -Version 0.1.1
 ```
 
 설치 스크립트는 GitHub Release의 설치 파일과 `SHA256SUMS.txt`를 내려받아 SHA-256을 검증한 후 실행합니다.
