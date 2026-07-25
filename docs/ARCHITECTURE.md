@@ -10,7 +10,9 @@
 
 ## 로컬 데이터
 
-- 사용자 문서: 사용자가 선택한 작업공간의 `.md`, `.txt`
+- 사용자 문서: 기본적으로 설치 폴더의 `workspaces`에 있는 `.md`, `.txt`
+- 대체 작업공간: 설치 폴더가 쓰기 불가능하면 Electron `userData/workspaces`
+- 사용자 지정 작업공간: 설정에서 선택한 로컬 폴더
 - 일반 설정: Electron `userData/settings.json`
 - API 키: Electron `safeStorage`로 암호화한 별도 파일
 - 데이터베이스, 계정, 클라우드 동기화: 사용하지 않음
@@ -38,7 +40,7 @@ Git 태그를 푸시하면 GitHub Actions가 공통 검사를 수행한 뒤 Wind
 - 플랫폼별 설치 정책(Windows: `C:\\ThinkFrame`, macOS: `/ThinkFrame/ThinkFrame.app`, Linux: `/ThinkFrame`) 적용
 - 설치 완료 후 앱 재시작
 
-사용자 문서는 선택한 작업공간에 있고 앱 설치 경로와 분리되어 있으므로 업데이트 대상에 포함되지 않습니다.
+설치 폴더의 `workspaces`는 애플리케이션 파일과 별도 항목으로 취급합니다. macOS는 앱 번들만 교체하고 Linux는 설치 폴더를 정리할 때 `workspaces`를 제외하므로 기본 작업공간도 업데이트 대상에 포함되지 않습니다. 사용자 지정 작업공간과 `userData` 대체 작업공간 역시 설치 경로 밖에 있어 그대로 유지됩니다.
 
 ### 향후 자동 업데이터
 

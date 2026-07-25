@@ -2,9 +2,19 @@
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-07-25
+
 ### 추가
 
 - 설치된 ThinkFrame 실제 화면과 단계별 사용법을 제공하는 소개 페이지
+- 설치 폴더의 `workspaces`를 자동으로 준비하는 기본 작업공간
+- 설정 화면에서 현재 작업폴더를 확인하고 변경하는 기능
+
+### 수정
+
+- macOS에서 기본 작업공간이 앱 번들 내부가 아닌 설치 폴더에 생성되도록 경로 계산
+- Linux 설치와 자동 업데이트가 설치 폴더의 `workspaces`를 보존하도록 개선
+- 유효한 사용자 지정 작업공간이 있으면 불필요하게 기본 작업공간을 만들지 않도록 시작 순서 조정
 
 ## [0.2.2] - 2026-07-25
 
@@ -70,7 +80,8 @@
 - SHA-256을 검증하는 PowerShell 설치 스크립트
 - Git 태그 기반 GitHub Release 자동 배포
 
-[Unreleased]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.2.2...HEAD
+[Unreleased]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.1.1...v0.2.0

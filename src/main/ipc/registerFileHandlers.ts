@@ -24,8 +24,10 @@ export function registerFileHandlers(
   fileService: FileService,
 ): void {
   ipcMain.handle(IPC.WORKSPACE_SELECT, async () => {
+    const settings = await settingsService.get();
     const result = await dialog.showOpenDialog({
       title: 'ThinkFrame 작업공간 선택',
+      defaultPath: settings.workspacePath ?? undefined,
       properties: ['openDirectory', 'createDirectory'],
     });
     if (result.canceled || !result.filePaths[0]) return null;

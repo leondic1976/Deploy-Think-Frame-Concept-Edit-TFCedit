@@ -1,11 +1,16 @@
 import { useState } from 'react';
 import type { AppSettings, SettingsPatch } from '../../../shared/contracts';
-import { AI_PROVIDER_CATALOG, AI_PROVIDER_MAP, type AIProviderId } from '../../../shared/aiProviders';
+import {
+  AI_PROVIDER_CATALOG,
+  AI_PROVIDER_MAP,
+  type AIProviderId,
+} from '../../../shared/aiProviders';
 
 interface SettingsModalProps {
   settings: AppSettings;
   onClose: () => void;
   onSave: (patch: SettingsPatch) => Promise<void>;
+  onSelectWorkspace: () => Promise<string | null>;
   onSaveApiKey: (key: string) => Promise<void>;
   onDeleteApiKey: () => Promise<void>;
   onTestConnection: () => Promise<string>;
@@ -15,6 +20,7 @@ export function SettingsModal({
   settings,
   onClose,
   onSave,
+  onSelectWorkspace,
   onSaveApiKey,
   onDeleteApiKey,
   onTestConnection,
@@ -58,6 +64,29 @@ export function SettingsModal({
         <div className="settings-content">
           <fieldset>
             <legend>일반</legend>
+            <div className="workspace-setting">
+              <span>작업폴더</span>
+              <code title={draft.workspacePath ?? ''}>
+                {draft.workspacePath ?? '설치 폴더의 workspaces'}
+              </code>
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() =>
+                  void execute(async () => {
+                    const workspacePath = await onSelectWorkspace();
+                    if (!workspacePath) return;
+                    setDraft((current) => ({ ...current, workspacePath }));
+                    setMessage(
+                      '작업폴더를 변경했습니다. 선택한 폴더는 다음 실행에도 유지됩니다.',
+                    );
+                  })
+                }
+              >
+                다른 폴더 선택
+              </button>
+              <small>새 설치의 기본값은 프로그램 설치 폴더의 workspaces입니다.</small>
+            </div>
             <label>
               테마
               <select

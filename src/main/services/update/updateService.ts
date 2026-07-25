@@ -1,6 +1,14 @@
 import { app } from 'electron';
 import { createHash, randomUUID } from 'node:crypto';
-import { mkdir, mkdtemp, readFile, rm, readdir, writeFile } from 'node:fs/promises';
+import {
+  lstat,
+  mkdir,
+  mkdtemp,
+  readFile,
+  rm,
+  readdir,
+  writeFile,
+} from 'node:fs/promises';
 import { spawn } from 'node:child_process';
 import path from 'node:path';
 import { tmpdir } from 'node:os';
@@ -18,7 +26,8 @@ interface GitHubRelease {
 type GitHubVersion = [major: number, minor: number, patch: number];
 
 export class UpdateService {
-  private static readonly Repository = 'leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit';
+  private static readonly Repository =
+    'leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit';
   private static readonly AssetWindows = 'ThinkFrameSetup.exe';
   private static readonly AssetMacArm = 'ThinkFrame-macOS-arm64.dmg';
   private static readonly AssetMacX64 = 'ThinkFrame-macOS-x64.dmg';
@@ -67,8 +76,7 @@ export class UpdateService {
     return (
       latest[0] > current[0] ||
       (latest[0] === current[0] &&
-        (latest[1] > current[1] ||
-          (latest[1] === current[1] && latest[2] > current[2])))
+        (latest[1] > current[1] || (latest[1] === current[1] && latest[2] > current[2])))
     );
   }
 
@@ -108,7 +116,10 @@ export class UpdateService {
     try {
       await this.download(asset.browser_download_url, assetPath);
       await this.download(checksumUrl.browser_download_url, checksumPath);
-      const expectedHash = this.parseChecksum(await readFile(checksumPath, 'utf8'), asset.name);
+      const expectedHash = this.parseChecksum(
+        await readFile(checksumPath, 'utf8'),
+        asset.name,
+      );
       if (!expectedHash) {
         throw new Error('SHA256SUMS에서 업데이트 파일 해시를 읽을 수 없습니다.');
       }
@@ -175,6 +186,7 @@ export class UpdateService {
     ]);
     try {
       await this.runAsRoot('mkdir', ['-p', '/ThinkFrame']);
+      await this.ensureInstallWorkspace('/ThinkFrame');
       const sourceApp = path.join(mountPoint, 'ThinkFrame.app');
       await this.runAsRoot('rm', ['-rf', UpdateService.InstallMacPath]);
       await this.runAsRoot('ditto', [sourceApp, UpdateService.InstallMacPath]);
@@ -193,10 +205,45 @@ export class UpdateService {
       entries.length === 1 && entries[0].isDirectory()
         ? path.join(extracted, entries[0].name)
         : extracted;
-    await this.runAsRoot('rm', ['-rf', UpdateService.InstallLinuxPath]);
     await this.runAsRoot('mkdir', ['-p', UpdateService.InstallLinuxPath]);
+    await this.ensureInstallWorkspace(UpdateService.InstallLinuxPath);
+    await this.runAsRoot('find', [
+      UpdateService.InstallLinuxPath,
+      '-mindepth',
+      '1',
+      '-maxdepth',
+      '1',
+      '!',
+      '-name',
+      'workspaces',
+      '-exec',
+      'rm',
+      '-rf',
+      '{}',
+      '+',
+    ]);
     await this.runAsRoot('cp', ['-a', `${sourceRoot}/.`, UpdateService.InstallLinuxPath]);
     await rm(extracted, { recursive: true, force: true });
+  }
+
+  private async ensureInstallWorkspace(installationRoot: string): Promise<void> {
+    const workspacePath = path.join(installationRoot, 'workspaces');
+    try {
+      const stats = await lstat(workspacePath);
+      if (!stats.isDirectory()) {
+        throw new Error(`${workspacePath} 경로가 폴더가 아닙니다.`);
+      }
+      return;
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+    }
+
+    await this.runAsRoot('mkdir', ['-p', workspacePath]);
+    const uid = process.getuid?.();
+    const gid = process.getgid?.();
+    if (uid !== undefined && gid !== undefined) {
+      await this.runAsRoot('chown', [`${uid}:${gid}`, workspacePath]);
+    }
   }
 
   private async runProcess(command: string, args: string[]): Promise<void> {

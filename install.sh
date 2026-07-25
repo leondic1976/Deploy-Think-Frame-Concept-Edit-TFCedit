@@ -19,6 +19,9 @@ fi
 operating_system="$(uname -s)"
 machine_architecture="$(uname -m)"
 install_root="/ThinkFrame"
+workspace_path="$install_root/workspaces"
+workspace_owner_uid="${SUDO_UID:-$(id -u)}"
+workspace_owner_gid="${SUDO_GID:-$(id -g)}"
 
 case "$machine_architecture" in
   x86_64|amd64) architecture="x64" ;;
@@ -55,34 +58,14 @@ for command_name in curl awk; do
   fi
 done
 if [ "$operating_system" = "Darwin" ]; then
-  for command_name in hdiutil ditto shasum; do
+  for command_name in hdiutil ditto shasum mkdir rm chown; do
     if ! command -v "$command_name" >/dev/null 2>&1; then
       echo "필수 명령을 찾을 수 없습니다: $command_name" >&2
       exit 1
     fi
   done
 else
-  for command_name in unzip find cp mkdir rm; do
-    if ! command -v "$command_name" >/dev/null 2>&1; then
-      echo "필수 명령을 찾을 수 없습니다: $command_name" >&2
-      exit 1
-    fi
-  done
-  if ! command -v "sha256sum" >/dev/null 2>&1; then
-    echo "필수 명령을 찾을 수 없습니다: sha256sum" >&2
-    exit 1
-  fi
-fi
-
-if [ "$operating_system" = "Darwin" ]; then
-  for command_name in hdiutil ditto shasum; do
-    if ! command -v "$command_name" >/dev/null 2>&1; then
-      echo "필수 명령을 찾을 수 없습니다: $command_name" >&2
-      exit 1
-    fi
-  done
-else
-  for command_name in unzip find cp mkdir rm sha256sum; do
+  for command_name in unzip find cp mkdir rm sha256sum chown; do
     if ! command -v "$command_name" >/dev/null 2>&1; then
       echo "필수 명령을 찾을 수 없습니다: $command_name" >&2
       exit 1
@@ -156,6 +139,15 @@ fi
 
 echo "체크섬 확인 완료. ThinkFrame 설치를 시작합니다..."
 
+if [ -e "$workspace_path" ] && [ ! -d "$workspace_path" ]; then
+  echo "$workspace_path 경로가 폴더가 아닙니다. 설치를 중단합니다." >&2
+  exit 1
+fi
+workspace_needs_owner=false
+if [ ! -d "$workspace_path" ]; then
+  workspace_needs_owner=true
+fi
+
 if [ "$operating_system" = "Darwin" ]; then
   mounted_volume="/Volumes/ThinkFrameInstaller"
   hdiutil attach "$asset_path" -nobrowse -readonly -mountpoint "$mounted_volume"
@@ -166,12 +158,20 @@ if [ "$operating_system" = "Darwin" ]; then
   fi
 
   if [ "$(id -u)" -eq 0 ]; then
-    rm -rf "$install_root"
     mkdir -p "$install_root"
+    rm -rf "$install_target"
+    mkdir -p "$workspace_path"
+    if [ "$workspace_needs_owner" = true ]; then
+      chown "$workspace_owner_uid:$workspace_owner_gid" "$workspace_path"
+    fi
     ditto "$app_source" "$install_target"
   elif command -v sudo >/dev/null 2>&1; then
-    sudo rm -rf "$install_root"
     sudo mkdir -p "$install_root"
+    sudo rm -rf "$install_target"
+    sudo mkdir -p "$workspace_path"
+    if [ "$workspace_needs_owner" = true ]; then
+      sudo chown "$workspace_owner_uid:$workspace_owner_gid" "$workspace_path"
+    fi
     sudo ditto "$app_source" "$install_target"
   else
     echo "/ThinkFrame 설치에는 관리자 권한이 필요합니다." >&2
@@ -180,25 +180,34 @@ if [ "$operating_system" = "Darwin" ]; then
   fi
   hdiutil detach "/Volumes/ThinkFrameInstaller" -quiet || true
 else
-  extract_directory="$(mktemp -d "${TMPDIR:-/tmp}/thinkframe-install-extract.XXXXXX")"
+  extract_directory="$temporary_directory/extracted"
+  mkdir -p "$extract_directory"
   unzip -q "$asset_path" -d "$extract_directory"
   extracted_entry="$(find "$extract_directory" -mindepth 1 -maxdepth 1 -type d -print -quit)"
   install_source="${extracted_entry:-$extract_directory}"
 
   if [ "$(id -u)" -eq 0 ]; then
-    rm -rf "$install_root"
     mkdir -p "$install_root"
+    find "$install_root" -mindepth 1 -maxdepth 1 ! -name workspaces \
+      -exec rm -rf -- {} +
+    mkdir -p "$workspace_path"
+    if [ "$workspace_needs_owner" = true ]; then
+      chown "$workspace_owner_uid:$workspace_owner_gid" "$workspace_path"
+    fi
     cp -a "$install_source"/. "$install_root"/
   elif command -v sudo >/dev/null 2>&1; then
-    sudo rm -rf "$install_root"
     sudo mkdir -p "$install_root"
+    sudo find "$install_root" -mindepth 1 -maxdepth 1 ! -name workspaces \
+      -exec rm -rf -- {} +
+    sudo mkdir -p "$workspace_path"
+    if [ "$workspace_needs_owner" = true ]; then
+      sudo chown "$workspace_owner_uid:$workspace_owner_gid" "$workspace_path"
+    fi
     sudo cp -a "$install_source"/. "$install_root"/
   else
     echo "/ThinkFrame 설치에는 root 권한 또는 sudo가 필요합니다." >&2
-    rm -rf -- "$extract_directory"
     exit 1
   fi
-  rm -rf -- "$extract_directory"
 fi
 
 echo "ThinkFrame 설치가 완료되었습니다."

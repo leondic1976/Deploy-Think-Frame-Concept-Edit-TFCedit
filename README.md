@@ -4,8 +4,8 @@ ThinkFrame은 Markdown·TXT 문서를 편집하고, 작성한 생각을 AI로 �
 
 ## 버전
 
-- 현재 안정 버전: `0.2.2`
-- 현재 버전 릴리스: [v0.2.2](https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/tag/v0.2.2)
+- 현재 안정 버전: `0.3.0`
+- 현재 버전 릴리스: [v0.3.0](https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/tag/v0.3.0)
 - 최신 릴리스: [releases/latest](https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/latest)
 - 전체 버전: [releases](https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases)
 - 다운로드 사이트: [ThinkFrame GitHub Pages](https://leondic1976.github.io/Deploy-Think-Frame-Concept-Edit-TFCedit/)
@@ -49,7 +49,7 @@ $script="$env:TEMP\install-thinkframe.ps1"; Invoke-WebRequest "https://raw.githu
 특정 버전:
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$env:TEMP\install-thinkframe.ps1" -Version 0.2.2
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$env:TEMP\install-thinkframe.ps1" -Version 0.3.0
 ```
 
 ### macOS·Linux
@@ -63,7 +63,7 @@ curl -fsSL https://raw.githubusercontent.com/leondic1976/Deploy-Think-Frame-Conc
 특정 버전:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/main/install.sh | sh -s -- 0.2.2
+curl -fsSL https://raw.githubusercontent.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/main/install.sh | sh -s -- 0.3.0
 ```
 
 설치 스크립트는 GitHub Release에서 운영체제에 맞는 파일과 `SHA256SUMS.txt`를 내려받아 SHA-256을 검증합니다. macOS는 `/ThinkFrame/ThinkFrame.app`, Linux는 `/ThinkFrame`에 설치합니다.  
@@ -84,6 +84,12 @@ Windows는 기본적으로 `C:\\ThinkFrame\\`에 설치됩니다.
 - ChatGPT·Claude·Gemini·Grok 웹 페이지 열기
 
 AI 결과는 원문을 자동으로 수정하지 않습니다. 사용자가 삽입 또는 저장을 선택할 때만 문서에 반영됩니다.
+
+## 작업폴더
+
+첫 실행 시 프로그램 설치 폴더의 `workspaces`를 기본 작업폴더로 만들고 이후 실행에도 같은 경로를 사용합니다. 설치 폴더에 쓸 수 없는 환경에서는 Electron 사용자 데이터 폴더의 `workspaces`를 안전한 대체 경로로 사용합니다.
+
+설정의 **일반 > 작업폴더**에서 다른 로컬 폴더로 변경할 수 있습니다. 설치·업데이트 과정은 설치 폴더의 `workspaces`를 애플리케이션 파일과 구분해 보존합니다.
 
 ## AI 연결
 

@@ -1,4 +1,4 @@
-import { lstat, readdir, realpath } from 'node:fs/promises';
+import { lstat, mkdir, readdir, realpath } from 'node:fs/promises';
 import path from 'node:path';
 import { SUPPORTED_EXTENSIONS } from '../../shared/constants';
 import type { FileSummary, SupportedExtension } from '../../shared/contracts';
@@ -6,6 +6,11 @@ import type { FileSummary, SupportedExtension } from '../../shared/contracts';
 const IGNORED_DIRECTORIES = new Set(['.git', 'node_modules']);
 
 export class WorkspaceService {
+  async ensure(workspacePath: string): Promise<string> {
+    await mkdir(workspacePath, { recursive: true });
+    return this.validate(workspacePath);
+  }
+
   async validate(workspacePath: string): Promise<string> {
     const resolved = await realpath(workspacePath);
     const stats = await lstat(resolved);

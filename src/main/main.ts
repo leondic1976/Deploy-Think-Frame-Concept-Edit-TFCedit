@@ -8,11 +8,36 @@ import { registerSettingsHandlers } from './ipc/registerSettingsHandlers';
 import { registerWindowHandlers } from './ipc/registerWindowHandlers';
 import { installContentSecurityPolicy } from './security/csp';
 import { FileService } from './services/fileService';
+import { installationDirectory } from './services/installationPath';
 import { SecureKeyService } from './services/secureKeyService';
 import { SettingsService } from './services/settingsService';
 import { UpdateService } from './services/update/updateService';
 import { WorkspaceService } from './services/workspaceService';
 import { createMainWindow } from './window';
+
+async function ensureDefaultWorkspace(
+  workspaceService: WorkspaceService,
+): Promise<string> {
+  const installedWorkspace = path.join(
+    installationDirectory({
+      appPath: app.getAppPath(),
+      executablePath: app.getPath('exe'),
+      isPackaged: app.isPackaged,
+      platform: process.platform,
+    }),
+    'workspaces',
+  );
+  try {
+    return await workspaceService.ensure(installedWorkspace);
+  } catch (error) {
+    const fallbackWorkspace = path.join(app.getPath('userData'), 'workspaces');
+    console.warn(
+      `설치 폴더에 작업공간을 만들 수 없어 대체 경로를 사용합니다: ${fallbackWorkspace}`,
+      error,
+    );
+    return workspaceService.ensure(fallbackWorkspace);
+  }
+}
 
 if (isSquirrelStartup) app.quit();
 
@@ -32,9 +57,24 @@ app
     );
     await settingsService.initialize();
 
+    const workspaceService = new WorkspaceService();
+    const settings = await settingsService.get();
+    let configuredWorkspace = settings.workspacePath;
+    if (configuredWorkspace) {
+      try {
+        configuredWorkspace = await workspaceService.validate(configuredWorkspace);
+      } catch {
+        configuredWorkspace = null;
+      }
+    }
+    if (!configuredWorkspace) {
+      const defaultWorkspace = await ensureDefaultWorkspace(workspaceService);
+      await settingsService.setWorkspace(defaultWorkspace);
+    }
+
     installContentSecurityPolicy(session.defaultSession);
     registerWindowHandlers();
-    registerFileHandlers(settingsService, new WorkspaceService(), new FileService());
+    registerFileHandlers(settingsService, workspaceService, new FileService());
     registerSettingsHandlers(settingsService, secureKeyService);
     registerAIHandlers(settingsService, secureKeyService);
     registerExternalHandlers();

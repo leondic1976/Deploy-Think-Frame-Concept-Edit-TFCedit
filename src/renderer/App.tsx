@@ -140,11 +140,11 @@ export function App(): React.JSX.Element {
     state.settings?.autoSaveDelay,
   ]);
 
-  const selectWorkspace = useCallback(async (): Promise<boolean> => {
-    if (!(await saveDocument())) return false;
+  const selectWorkspace = useCallback(async (): Promise<string | null> => {
+    if (!(await saveDocument())) return null;
     try {
       const workspacePath = await window.thinkframe.workspace.select();
-      if (!workspacePath) return false;
+      if (!workspacePath) return null;
       const [settings, files] = await Promise.all([
         window.thinkframe.settings.get(),
         window.thinkframe.workspace.listFiles(),
@@ -152,10 +152,10 @@ export function App(): React.JSX.Element {
       dispatch({ type: 'settings', settings });
       dispatch({ type: 'files', files });
       dispatch({ type: 'document', document: null });
-      return true;
+      return workspacePath;
     } catch (error) {
       dispatch({ type: 'error', message: formatError(error) });
-      return false;
+      return null;
     }
   }, [dispatch, saveDocument]);
 
@@ -489,6 +489,7 @@ export function App(): React.JSX.Element {
           settings={state.settings}
           onClose={() => dispatch({ type: 'settingsOpen', value: false })}
           onSave={updateSettings}
+          onSelectWorkspace={selectWorkspace}
           onSaveApiKey={async (key) => {
             await window.thinkframe.settings.saveApiKey(key);
             await refreshSettings();
