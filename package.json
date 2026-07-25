@@ -1,7 +1,7 @@
 {
   "name": "thinkframe",
   "productName": "ThinkFrame",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "생각을 실행 가능한 형태로 발전시키는 로컬 중심 AI 사고 보조 메모장",
   "main": ".vite/build/main.js",
   "author": "ThinkFrame",
