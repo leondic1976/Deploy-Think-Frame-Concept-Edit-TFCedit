@@ -1,3 +1,4 @@
+import { AI_PROVIDER_MAP, type AIProviderId } from './aiProviders';
 import type { AppSettings } from './contracts';
 
 export const SUPPORTED_EXTENSIONS = ['.md', '.txt'] as const;
@@ -13,9 +14,10 @@ export const DEFAULT_SETTINGS: AppSettings = {
   theme: 'system',
   fontSize: 15,
   ai: {
-    providerName: 'OpenAI 호환 API',
-    baseUrl: 'https://api.openai.com/v1',
-    model: 'gpt-4.1-mini',
+    providerId: 'chatgpt' satisfies AIProviderId,
+    providerName: AI_PROVIDER_MAP.chatgpt.name,
+    baseUrl: AI_PROVIDER_MAP.chatgpt.baseUrl,
+    model: AI_PROVIDER_MAP.chatgpt.model,
     timeoutMs: 60_000,
     hasApiKey: false,
   },

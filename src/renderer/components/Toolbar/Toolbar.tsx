@@ -2,7 +2,7 @@ import type { SaveStatus } from '../../state/appStore';
 
 interface ToolbarProps {
   documentName: string;
-  version: string;
+  version: string | null;
   saveStatus: SaveStatus;
   onToggleSidebar: () => void;
   onToggleAssistant: () => void;
@@ -31,7 +31,7 @@ export function Toolbar({
       <div className="titlebar-brand">
         <span className="brand-mark">T</span>
         <strong>ThinkFrame</strong>
-        <span className="version">v{version}</span>
+        {version && <span className="version">v{version}</span>}
       </div>
       <div className="titlebar-document">
         <span>{documentName || '문서를 선택하세요'}</span>

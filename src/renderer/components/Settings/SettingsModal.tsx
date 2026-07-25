@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { AppSettings, SettingsPatch } from '../../../shared/contracts';
+import { AI_PROVIDER_CATALOG, AI_PROVIDER_MAP, type AIProviderId } from '../../../shared/aiProviders';
 
 interface SettingsModalProps {
   settings: AppSettings;
@@ -22,6 +23,7 @@ export function SettingsModal({
   const [apiKey, setApiKey] = useState('');
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
+  const selectedProvider = AI_PROVIDER_MAP[draft.ai.providerId] ?? AI_PROVIDER_MAP.custom;
 
   const execute = async (operation: () => Promise<void>): Promise<void> => {
     setBusy(true);
@@ -135,6 +137,32 @@ export function SettingsModal({
               />
             </label>
             <label>
+              AI 제공자
+              <select
+                value={draft.ai.providerId}
+                onChange={(event) => {
+                  const providerId = event.target.value as AIProviderId;
+                  const provider = AI_PROVIDER_MAP[providerId];
+                  setDraft({
+                    ...draft,
+                    ai: {
+                      ...draft.ai,
+                      providerId,
+                      providerName: provider.name,
+                      baseUrl: provider.baseUrl,
+                      model: provider.model,
+                    },
+                  });
+                }}
+              >
+                {AI_PROVIDER_CATALOG.map((provider) => (
+                  <option key={provider.id} value={provider.id}>
+                    {provider.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
               Base URL
               <input
                 value={draft.ai.baseUrl}
@@ -175,11 +203,12 @@ export function SettingsModal({
                 value={apiKey}
                 placeholder={settings.ai.hasApiKey ? '저장된 키 ••••••••' : 'API 키 입력'}
                 onChange={(event) => setApiKey(event.target.value)}
+                disabled={!selectedProvider.requiresApiKey}
               />
             </label>
             <div className="settings-inline-actions">
               <button
-                disabled={busy || !apiKey.trim()}
+                disabled={busy || !selectedProvider.requiresApiKey || !apiKey.trim()}
                 onClick={() =>
                   void execute(async () => {
                     await onSaveApiKey(apiKey);
@@ -207,6 +236,7 @@ export function SettingsModal({
                   void execute(async () => {
                     await onSave({
                       ai: {
+                        providerId: draft.ai.providerId,
                         providerName: draft.ai.providerName,
                         baseUrl: draft.ai.baseUrl,
                         model: draft.ai.model,
@@ -237,6 +267,7 @@ export function SettingsModal({
                   theme: draft.theme,
                   fontSize: draft.fontSize,
                   ai: {
+                    providerId: draft.ai.providerId,
                     providerName: draft.ai.providerName,
                     baseUrl: draft.ai.baseUrl,
                     model: draft.ai.model,

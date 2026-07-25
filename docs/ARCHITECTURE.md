@@ -31,26 +31,24 @@ Git 태그를 푸시하면 GitHub Actions가 공통 검사를 수행한 뒤 Wind
 
 ### 현재
 
-앱 내부 자동 업데이트는 아직 제공하지 않습니다. 사용자는 다음 중 하나로 최신 버전을 설치합니다.
+앱 내부 자동 업데이트가 기본 동작합니다.
 
-- GitHub Releases의 운영체제별 최신 설치 파일 실행
-- README의 Windows PowerShell 또는 macOS·Linux 셸 설치 명령 실행
+- GitHub Releases의 최신 릴리스 자동 조회
+- 에셋 무결성(SHA-256) 검증
+- 플랫폼별 설치 정책(Windows: `C:\\ThinkFrame`, macOS: `/ThinkFrame/ThinkFrame.app`, Linux: `/ThinkFrame`) 적용
+- 설치 완료 후 앱 재시작
 
 사용자 문서는 선택한 작업공간에 있고 앱 설치 경로와 분리되어 있으므로 업데이트 대상에 포함되지 않습니다.
 
 ### 향후 자동 업데이터
 
-공개 GitHub 저장소와 GitHub Releases를 유지하는 동안 Windows는 Electron이 공식 안내하는 `update-electron-app`과 `update.electronjs.org` 조합을 우선 사용합니다. macOS 자동 업데이트는 코드 서명과 공증을 먼저 적용한 뒤 도입하며, Linux는 DEB 재설치와 릴리스 설치 스크립트를 유지합니다.
+현재는 `GitHub Releases` 직접 조회 방식으로 동작합니다.
 
-구현 위치와 책임:
+예정된 개선 항목:
 
-1. 런타임 의존성으로 `update-electron-app`을 추가합니다.
-2. 메인 프로세스의 별도 `updateService`에서만 업데이터를 초기화합니다.
-3. 개발 실행에서는 비활성화하고 `app.isPackaged`인 서명된 지원 빌드에서만 실행합니다.
-4. `--squirrel-firstrun` 동안 파일 잠금이 있으므로 첫 실행 직후에는 검사하지 않습니다.
-5. 업데이트 확인, 다운로드 완료, 오류 상태만 최소 IPC로 렌더러에 전달합니다.
-6. 재시작 설치는 문서 저장 상태를 확인한 뒤 사용자가 명시적으로 선택할 때 실행합니다.
-7. API 키, 문서 내용, 작업공간 경로를 업데이트 요청에 포함하지 않습니다.
+1. `electron-updater` 기반 업데이트 파이프라인 전환
+2. 사용자 안내 UI(새 버전, 진행 상태, 실패 원인) 개선
+3. 서명·공증 완료 후 macOS 코드 사인 강화
 
 필수 선행 조건:
 

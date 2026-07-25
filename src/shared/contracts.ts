@@ -1,3 +1,5 @@
+import type { AIProviderId } from './aiProviders';
+
 export type SupportedExtension = '.md' | '.txt';
 export type ThemeMode = 'system' | 'light' | 'dark';
 export type AIStage = 'organize' | 'structure' | 'validate' | 'realize' | 'prompt';
@@ -39,6 +41,7 @@ export interface AppSettings {
   theme: ThemeMode;
   fontSize: number;
   ai: {
+    providerId: AIProviderId;
     providerName: string;
     baseUrl: string;
     model: string;
@@ -132,7 +135,7 @@ export interface ThinkFrameAPI {
   };
   external: {
     copyAndOpen(
-      urlKey: 'chatgpt' | 'claude' | 'gemini' | 'grok',
+      urlKey: AIProviderId,
       text: string,
     ): Promise<void>;
     copy(text: string): Promise<void>;

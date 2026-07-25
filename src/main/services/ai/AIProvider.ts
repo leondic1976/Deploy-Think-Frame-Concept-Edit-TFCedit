@@ -7,11 +7,12 @@ export interface ProviderGenerateRequest {
 }
 
 export interface AIProvider {
+  readonly requiresApiKey: boolean;
   testConnection(): Promise<ConnectionTestResult>;
   generate(request: ProviderGenerateRequest): Promise<string>;
 }
 
 export interface ProviderOptions {
   settings: AppSettings['ai'];
-  apiKey: string;
+  apiKey?: string;
 }

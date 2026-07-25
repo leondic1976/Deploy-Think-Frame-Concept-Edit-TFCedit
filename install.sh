@@ -18,6 +18,7 @@ fi
 
 operating_system="$(uname -s)"
 machine_architecture="$(uname -m)"
+install_root="/ThinkFrame"
 
 case "$machine_architecture" in
   x86_64|amd64) architecture="x64" ;;
@@ -31,13 +32,15 @@ esac
 case "$operating_system" in
   Darwin)
     asset_name="ThinkFrame-macOS-$architecture.dmg"
+    install_target="/ThinkFrame/ThinkFrame.app"
     ;;
   Linux)
     if [ "$architecture" != "x64" ]; then
       echo "Linux는 현재 x64만 지원합니다." >&2
       exit 1
     fi
-    asset_name="ThinkFrame-linux-x64.deb"
+    asset_name="ThinkFrame-linux-x64.zip"
+    install_target="/ThinkFrame"
     ;;
   *)
     echo "이 스크립트는 macOS와 Linux에서만 사용할 수 있습니다." >&2
@@ -51,6 +54,41 @@ for command_name in curl awk; do
     exit 1
   fi
 done
+if [ "$operating_system" = "Darwin" ]; then
+  for command_name in hdiutil ditto shasum; do
+    if ! command -v "$command_name" >/dev/null 2>&1; then
+      echo "필수 명령을 찾을 수 없습니다: $command_name" >&2
+      exit 1
+    fi
+  done
+else
+  for command_name in unzip find cp mkdir rm; do
+    if ! command -v "$command_name" >/dev/null 2>&1; then
+      echo "필수 명령을 찾을 수 없습니다: $command_name" >&2
+      exit 1
+    fi
+  done
+  if ! command -v "sha256sum" >/dev/null 2>&1; then
+    echo "필수 명령을 찾을 수 없습니다: sha256sum" >&2
+    exit 1
+  fi
+fi
+
+if [ "$operating_system" = "Darwin" ]; then
+  for command_name in hdiutil ditto shasum; do
+    if ! command -v "$command_name" >/dev/null 2>&1; then
+      echo "필수 명령을 찾을 수 없습니다: $command_name" >&2
+      exit 1
+    fi
+  done
+else
+  for command_name in unzip find cp mkdir rm sha256sum; do
+    if ! command -v "$command_name" >/dev/null 2>&1; then
+      echo "필수 명령을 찾을 수 없습니다: $command_name" >&2
+      exit 1
+    fi
+  done
+fi
 
 temporary_directory="$(mktemp -d "${TMPDIR:-/tmp}/thinkframe-install.XXXXXX")"
 mounted_volume=""
@@ -119,37 +157,48 @@ fi
 echo "체크섬 확인 완료. ThinkFrame 설치를 시작합니다..."
 
 if [ "$operating_system" = "Darwin" ]; then
-  mounted_volume="$(hdiutil attach "$asset_path" -nobrowse -readonly |
-    awk '/\/Volumes\// { sub(/^.*\/Volumes\//, "/Volumes/"); print; exit }')"
-  app_source="$mounted_volume/ThinkFrame.app"
+  mounted_volume="/Volumes/ThinkFrameInstaller"
+  hdiutil attach "$asset_path" -nobrowse -readonly -mountpoint "$mounted_volume"
+  app_source="/Volumes/ThinkFrameInstaller/ThinkFrame.app"
   if [ ! -d "$app_source" ]; then
     echo "DMG에서 ThinkFrame.app을 찾을 수 없습니다." >&2
     exit 1
   fi
 
-  if [ -w "/Applications" ]; then
-    ditto "$app_source" "/Applications/ThinkFrame.app"
-  elif command -v sudo >/dev/null 2>&1; then
-    sudo ditto "$app_source" "/Applications/ThinkFrame.app"
-  else
-    echo "/Applications에 설치하려면 관리자 권한이 필요합니다." >&2
-    exit 1
-  fi
-else
   if [ "$(id -u)" -eq 0 ]; then
-    dpkg -i "$asset_path" || {
-      apt-get install -f -y
-      dpkg -i "$asset_path"
-    }
+    rm -rf "$install_root"
+    mkdir -p "$install_root"
+    ditto "$app_source" "$install_target"
   elif command -v sudo >/dev/null 2>&1; then
-    sudo dpkg -i "$asset_path" || {
-      sudo apt-get install -f -y
-      sudo dpkg -i "$asset_path"
-    }
+    sudo rm -rf "$install_root"
+    sudo mkdir -p "$install_root"
+    sudo ditto "$app_source" "$install_target"
   else
-    echo "DEB 설치에는 root 권한 또는 sudo가 필요합니다." >&2
+    echo "/ThinkFrame 설치에는 관리자 권한이 필요합니다." >&2
+    hdiutil detach "/Volumes/ThinkFrameInstaller" -quiet || true
     exit 1
   fi
+  hdiutil detach "/Volumes/ThinkFrameInstaller" -quiet || true
+else
+  extract_directory="$(mktemp -d "${TMPDIR:-/tmp}/thinkframe-install-extract.XXXXXX")"
+  unzip -q "$asset_path" -d "$extract_directory"
+  extracted_entry="$(find "$extract_directory" -mindepth 1 -maxdepth 1 -type d -print -quit)"
+  install_source="${extracted_entry:-$extract_directory}"
+
+  if [ "$(id -u)" -eq 0 ]; then
+    rm -rf "$install_root"
+    mkdir -p "$install_root"
+    cp -a "$install_source"/. "$install_root"/
+  elif command -v sudo >/dev/null 2>&1; then
+    sudo rm -rf "$install_root"
+    sudo mkdir -p "$install_root"
+    sudo cp -a "$install_source"/. "$install_root"/
+  else
+    echo "/ThinkFrame 설치에는 root 권한 또는 sudo가 필요합니다." >&2
+    rm -rf -- "$extract_directory"
+    exit 1
+  fi
+  rm -rf -- "$extract_directory"
 fi
 
 echo "ThinkFrame 설치가 완료되었습니다."

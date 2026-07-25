@@ -10,6 +10,7 @@ import { installContentSecurityPolicy } from './security/csp';
 import { FileService } from './services/fileService';
 import { SecureKeyService } from './services/secureKeyService';
 import { SettingsService } from './services/settingsService';
+import { UpdateService } from './services/update/updateService';
 import { WorkspaceService } from './services/workspaceService';
 import { createMainWindow } from './window';
 
@@ -37,6 +38,10 @@ app
     registerSettingsHandlers(settingsService, secureKeyService);
     registerAIHandlers(settingsService, secureKeyService);
     registerExternalHandlers();
+    if (app.isPackaged) {
+      const updateService = new UpdateService();
+      void updateService.checkAndApplyUpdate();
+    }
 
     createMainWindow();
     app.on('activate', () => {

@@ -1,5 +1,6 @@
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { AI_PROVIDER_MAP } from '../../shared/aiProviders';
 import { DEFAULT_SETTINGS } from '../../shared/constants';
 import type { AppSettings, SettingsPatch } from '../../shared/contracts';
 
@@ -11,6 +12,7 @@ function toPersisted(settings: AppSettings): PersistedSettings {
   return {
     ...settings,
     ai: {
+      providerId: settings.ai.providerId,
       providerName: settings.ai.providerName,
       baseUrl: settings.ai.baseUrl,
       model: settings.ai.model,
@@ -31,6 +33,10 @@ function mergeSettings(input: Partial<PersistedSettings> | undefined): AppSettin
     ai: {
       ...DEFAULT_SETTINGS.ai,
       ...input?.ai,
+      providerId:
+        input?.ai?.providerId && AI_PROVIDER_MAP[input.ai.providerId]
+          ? input.ai.providerId
+          : DEFAULT_SETTINGS.ai.providerId,
       hasApiKey: false,
     },
   };

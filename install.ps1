@@ -1,11 +1,13 @@
 [CmdletBinding()]
 param(
-  [string]$Version = "latest",
-  [switch]$Silent
+[string]$Version = "latest",
+[switch]$Silent
 )
 
 $ErrorActionPreference = "Stop"
 $ProgressPreference = "SilentlyContinue"
+
+$installPath = "C:\ThinkFrame"
 
 $repository = "leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit"
 $releaseApi = if ($Version -eq "latest") {
@@ -55,16 +57,17 @@ try {
   }
   $expectedHash = ($checksumLine -split "\s+")[0]
   $actualHash = (Get-FileHash -LiteralPath $setupPath -Algorithm SHA256).Hash
-  if ($actualHash -ne $expectedHash) {
+  if ($actualHash.ToLower() -ne $expectedHash.ToLower()) {
     throw "설치 파일의 SHA-256 체크섬이 일치하지 않습니다."
   }
 
   Write-Host "체크섬 확인 완료. ThinkFrame 설치를 시작합니다..."
-  $process = if ($Silent) {
-    Start-Process -FilePath $setupPath -ArgumentList "--silent" -Wait -PassThru
-  } else {
-    Start-Process -FilePath $setupPath -Wait -PassThru
+
+  $arguments = @("/D=$installPath")
+  if ($Silent) {
+    $arguments = @("/S", "/D=$installPath")
   }
+  $process = Start-Process -FilePath $setupPath -ArgumentList $arguments -Wait -PassThru
   if ($process.ExitCode -ne 0) {
     throw "ThinkFrame 설치가 종료 코드 $($process.ExitCode)로 실패했습니다."
   }

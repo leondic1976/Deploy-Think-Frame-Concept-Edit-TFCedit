@@ -1,4 +1,5 @@
 import type { AIStage, AssistantResult } from '../../../shared/contracts';
+import { AI_WEB_PROVIDERS, type AIProviderId } from '../../../shared/aiProviders';
 
 const STAGES: Array<{ id: AIStage; label: string; number: number }> = [
   { id: 'organize', label: '체계화', number: 1 },
@@ -30,7 +31,7 @@ interface AssistantPanelProps {
   onAppend: () => void;
   onInsert: () => void;
   onSaveNew: () => void;
-  onOpenAI: (key: 'chatgpt' | 'claude' | 'gemini' | 'grok') => void;
+  onOpenAI: (key: AIProviderId) => void;
 }
 
 export function AssistantPanel({
@@ -181,10 +182,11 @@ export function AssistantPanel({
           <div className="external-buttons">
             <span>복사 후 웹 AI에서 열기</span>
             <div>
-              <button onClick={() => onOpenAI('chatgpt')}>ChatGPT</button>
-              <button onClick={() => onOpenAI('claude')}>Claude</button>
-              <button onClick={() => onOpenAI('gemini')}>Gemini</button>
-              <button onClick={() => onOpenAI('grok')}>Grok</button>
+              {AI_WEB_PROVIDERS.map((provider) => (
+                <button key={provider.id} onClick={() => onOpenAI(provider.id)}>
+                  {provider.name}
+                </button>
+              ))}
             </div>
           </div>
         )}

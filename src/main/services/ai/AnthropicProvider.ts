@@ -1,12 +1,8 @@
 import type { ConnectionTestResult } from '../../../shared/contracts';
-import type { AIProvider, ProviderGenerateRequest, ProviderOptions } from './AIProvider';
+import type { AIProvider, ProviderOptions } from './AIProvider';
 
-interface ChatCompletionResponse {
-  choices?: Array<{
-    message?: {
-      content?: string;
-    };
-  }>;
+interface AnthropicResponse {
+  content?: Array<{ type?: string; text?: string }>;
   error?: {
     message?: string;
   };
@@ -14,10 +10,7 @@ interface ChatCompletionResponse {
 
 function apiError(status: number, fallback: string): Error {
   if (status === 401 || status === 403) {
-    return new Error('AI API 인증에 실패했습니다. 설정에서 API 키를 확인해 주세요.');
-  }
-  if (status === 404) {
-    return new Error('AI API 주소 또는 모델 이름을 찾을 수 없습니다.');
+    return new Error('AI 인증에 실패했습니다. API 키를 확인해 주세요.');
   }
   if (status === 429) {
     return new Error('AI API 사용량 한도에 도달했습니다. 잠시 후 다시 시도해 주세요.');
@@ -32,7 +25,7 @@ function endpoint(baseUrl: string, pathname: string): string {
   return `${baseUrl.replace(/\/+$/g, '')}/${pathname}`;
 }
 
-export class OpenAICompatibleProvider implements AIProvider {
+export class AnthropicProvider implements AIProvider {
   readonly requiresApiKey = true;
 
   constructor(private readonly options: ProviderOptions) {}
@@ -40,11 +33,8 @@ export class OpenAICompatibleProvider implements AIProvider {
   async testConnection(): Promise<ConnectionTestResult> {
     try {
       const response = await this.request(
-        endpoint(this.options.settings.baseUrl, 'models'),
-        {
-          method: 'GET',
-          headers: this.headers(),
-        },
+        endpoint(this.options.settings.baseUrl, 'v1/models'),
+        { method: 'GET' },
       );
       if (!response.ok) {
         throw apiError(response.status, await response.text());
@@ -58,9 +48,9 @@ export class OpenAICompatibleProvider implements AIProvider {
     }
   }
 
-  async generate(request: ProviderGenerateRequest): Promise<string> {
+  async generate(request: { system: string; user: string; signal?: AbortSignal }): Promise<string> {
     const response = await this.request(
-      endpoint(this.options.settings.baseUrl, 'chat/completions'),
+      endpoint(this.options.settings.baseUrl, 'v1/messages'),
       {
         method: 'POST',
         headers: {
@@ -69,22 +59,22 @@ export class OpenAICompatibleProvider implements AIProvider {
         },
         body: JSON.stringify({
           model: this.options.settings.model,
+          max_tokens: 2048,
+          system: request.system,
+          messages: [{ role: 'user', content: request.user }],
           stream: false,
-          messages: [
-            { role: 'system', content: request.system },
-            { role: 'user', content: request.user },
-          ],
         }),
         signal: request.signal,
       },
     );
-
-    const body = (await response.json().catch(() => ({}))) as ChatCompletionResponse;
+    const body = (await response.json().catch(() => ({}))) as AnthropicResponse;
     if (!response.ok) {
       throw apiError(response.status, body.error?.message ?? '');
     }
-    const content = body.choices?.[0]?.message?.content?.trim();
-    if (!content) throw new Error('AI가 빈 응답을 반환했습니다. 다시 시도해 주세요.');
+    const content = body.content?.map((chunk) => chunk.text).filter(Boolean).join('\n');
+    if (!content) {
+      throw new Error('AI가 빈 응답을 반환했습니다. 다시 시도해 주세요.');
+    }
     return content;
   }
 
@@ -92,7 +82,11 @@ export class OpenAICompatibleProvider implements AIProvider {
     if (!this.options.apiKey) {
       throw new Error('AI API 키가 설정되어 있지 않습니다.');
     }
-    return { Authorization: `Bearer ${this.options.apiKey}` };
+    return {
+      'x-api-key': this.options.apiKey,
+      'anthropic-version': '2023-06-01',
+      Accept: 'application/json',
+    };
   }
 
   private async request(url: string, init: RequestInit): Promise<Response> {

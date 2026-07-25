@@ -2,7 +2,7 @@ import { ipcMain } from 'electron';
 import { IPC } from '../../shared/ipcChannels';
 import type { SecureKeyService } from '../services/secureKeyService';
 import type { SettingsService } from '../services/settingsService';
-import { OpenAICompatibleProvider } from '../services/ai/OpenAICompatibleProvider';
+import { createProvider } from '../services/ai/providerFactory';
 import { settingsPatchSchema } from './schemas';
 
 export function registerSettingsHandlers(
@@ -27,12 +27,13 @@ export function registerSettingsHandlers(
       settingsService.get(),
       secureKeyService.get(),
     ]);
-    if (!apiKey) {
+    const provider = createProvider(settings.ai.providerId, {
+      settings: settings.ai,
+      apiKey: apiKey ?? undefined,
+    });
+    if (provider.requiresApiKey && !apiKey) {
       return { ok: false, message: '먼저 API 키를 저장해 주세요.' };
     }
-    return new OpenAICompatibleProvider({
-      settings: settings.ai,
-      apiKey,
-    }).testConnection();
+    return provider.testConnection();
   });
 }

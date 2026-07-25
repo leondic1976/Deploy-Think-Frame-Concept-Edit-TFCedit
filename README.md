@@ -66,7 +66,8 @@ curl -fsSL https://raw.githubusercontent.com/leondic1976/Deploy-Think-Frame-Conc
 curl -fsSL https://raw.githubusercontent.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/main/install.sh | sh -s -- 0.2.2
 ```
 
-설치 스크립트는 GitHub Release에서 운영체제에 맞는 파일과 `SHA256SUMS.txt`를 내려받아 SHA-256을 검증합니다. macOS는 `/Applications/ThinkFrame.app`, Linux는 DEB 패키지로 설치합니다.
+설치 스크립트는 GitHub Release에서 운영체제에 맞는 파일과 `SHA256SUMS.txt`를 내려받아 SHA-256을 검증합니다. macOS는 `/ThinkFrame/ThinkFrame.app`, Linux는 `/ThinkFrame`에 설치합니다.  
+Windows는 기본적으로 `C:\\ThinkFrame\\`에 설치됩니다.
 
 현재 macOS 앱은 코드 서명되지 않았습니다. 처음 실행이 차단되면 시스템 설정의 개인정보 보호 및 보안에서 ThinkFrame 실행을 허용해야 합니다.
 
@@ -86,7 +87,8 @@ AI 결과는 원문을 자동으로 수정하지 않습니다. 사용자가 삽�
 
 ## AI 연결
 
-설정에서 OpenAI 호환 API 정보를 입력합니다.
+설정에서 OpenAI 호환 API 및 Claude, Gemini, Grok, Meta AI, OpenRouter, Ollama, DeepSeek, Qwen, Moonshot, 豆包(두바오) 등 다중 제공자를 선택해 사용할 수 있습니다.
+기본 연결 항목은 OpenAI 호환 API 형식을 기준으로 표시됩니다.
 
 - Base URL: 기본값 `https://api.openai.com/v1`
 - API Key: 운영체제 보안 저장소로 암호화
@@ -165,9 +167,9 @@ git push origin main --follow-tags
 
 ## 현재 제한사항
 
-- OpenAI 호환 Chat Completions API만 지원합니다.
+- OpenAI 호환 인터페이스를 포함해 다중 AI 백엔드를 지원합니다.
 - 인터넷 사실 검증과 자동 웹 검색은 수행하지 않습니다.
 - Markdown은 일반 텍스트로 편집합니다.
-- 앱 내부 자동 업데이트는 아직 제공하지 않으며 최신 설치 파일 또는 터미널 설치 명령으로 업데이트합니다.
+- 앱 시작 시 GitHub 최신 릴리스를 확인해 자동 업데이트를 수행하고, 새 버전이 있으면 설치 후 앱을 재시작합니다.
 - macOS 패키지는 코드 서명과 공증을 적용하지 않은 상태입니다.
 - 클라우드 동기화, 계정, 협업, 플러그인, 지식 그래프는 제공하지 않습니다.

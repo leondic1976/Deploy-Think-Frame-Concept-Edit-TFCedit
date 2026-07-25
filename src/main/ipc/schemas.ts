@@ -1,4 +1,9 @@
 import { z } from 'zod';
+import type { AIProviderId } from '../../shared/aiProviders';
+import { AI_PROVIDER_IDS } from '../../shared/aiProviders';
+
+const aiProviderIdValues = [...AI_PROVIDER_IDS] as [AIProviderId, ...AIProviderId[]];
+const aiProviderIdSchema = z.enum(aiProviderIdValues);
 
 export const relativePathSchema = z.string().min(1).max(1024);
 
@@ -36,6 +41,7 @@ export const settingsPatchSchema = z
     ai: z
       .object({
         providerName: z.string().min(1).max(100).optional(),
+        providerId: aiProviderIdSchema.optional(),
         baseUrl: z.url().max(500).optional(),
         model: z.string().min(1).max(200).optional(),
         timeoutMs: z.number().int().min(5_000).max(180_000).optional(),
@@ -56,7 +62,7 @@ export const analyzeRequestSchema = z
 
 export const externalOpenSchema = z
   .object({
-    urlKey: z.enum(['chatgpt', 'claude', 'gemini', 'grok']),
+    urlKey: aiProviderIdSchema,
     text: z.string().max(100_000),
   })
   .strict();

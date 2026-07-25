@@ -405,7 +405,7 @@ export function App(): React.JSX.Element {
     <div className="app-shell" onKeyDownCapture={handleKeyboard}>
       <Toolbar
         documentName={state.document?.name ?? ''}
-        version={state.appInfo?.version ?? '0.1.0'}
+        version={state.appInfo?.version ?? null}
         saveStatus={state.saveStatus}
         onToggleSidebar={() => dispatch({ type: 'toggleSidebar' })}
         onToggleAssistant={() => dispatch({ type: 'toggleAssistant' })}

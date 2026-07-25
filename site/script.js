@@ -5,6 +5,43 @@ const commands = {
   unix: 'curl -fsSL https://raw.githubusercontent.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/main/install.sh | sh',
 };
 
+function setVersionText(version) {
+  const nodes = {
+    releaseLabel: document.querySelector('#release-label'),
+    heroVersion: document.querySelector('#hero-version'),
+    screenVersion: document.querySelector('#screen-version'),
+    screenMetaVersion: document.querySelector('#screen-meta-version'),
+  };
+
+  const safeVersion = version ?? '';
+  if (nodes.releaseLabel) {
+    nodes.releaseLabel.textContent = `최신 안정 버전 ${safeVersion}`;
+  }
+  if (nodes.heroVersion) {
+    nodes.heroVersion.textContent = safeVersion;
+  }
+  if (nodes.screenVersion) {
+    nodes.screenVersion.textContent = safeVersion;
+  }
+  if (nodes.screenMetaVersion) {
+    nodes.screenMetaVersion.textContent = safeVersion;
+  }
+}
+
+function setReleaseDate(dateText) {
+  const releaseDate = document.querySelector('#release-date');
+  if (releaseDate) {
+    releaseDate.textContent = `${dateText} 게시 · GitHub Releases`;
+  }
+}
+
+function getCurrentReleaseVersionFallback() {
+  const releaseLabel = document.querySelector('#release-label');
+  if (!releaseLabel) return null;
+  const match = releaseLabel.textContent?.match(/v?\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?/);
+  return match ? match[0].startsWith('v') ? match[0] : `v${match[0]}` : null;
+}
+
 function detectOperatingSystem() {
   const source = `${navigator.userAgent} ${navigator.platform}`.toLowerCase();
   if (source.includes('win')) return 'windows';
@@ -33,16 +70,14 @@ async function loadLatestRelease() {
     if (!response.ok) return;
 
     const release = await response.json();
-    document.querySelector('#release-label').textContent =
-      `최신 안정 버전 ${release.tag_name}`;
+    setVersionText(release.tag_name);
 
     const published = new Intl.DateTimeFormat('ko-KR', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     }).format(new Date(release.published_at));
-    document.querySelector('#release-date').textContent =
-      `${published} 게시 · GitHub Releases`;
+    setReleaseDate(published);
 
     const assets = new Map(
       release.assets.map((asset) => [asset.name, asset.browser_download_url]),
@@ -53,6 +88,8 @@ async function loadLatestRelease() {
     });
   } catch {
     // 고정된 latest 다운로드 링크를 그대로 사용합니다.
+    const fallback = getCurrentReleaseVersionFallback();
+    if (fallback) setVersionText(fallback);
   }
 }
 
