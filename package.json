@@ -3,6 +3,14 @@
   "productName": "ThinkFrame",
   "version": "0.1.1",
   "description": "생각을 실행 가능한 형태로 발전시키는 로컬 중심 AI 사고 보조 메모장",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit.git"
+  },
+  "homepage": "https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit#readme",
+  "bugs": {
+    "url": "https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/issues"
+  },
   "main": ".vite/build/main.js",
   "author": "ThinkFrame",
   "license": "MIT",

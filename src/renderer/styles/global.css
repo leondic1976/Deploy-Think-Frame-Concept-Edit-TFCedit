@@ -519,10 +519,9 @@ button.primary:hover:not(:disabled) {
 
 .find-bar {
   display: grid;
-  grid-template-columns: minmax(90px, 1fr) minmax(90px, 1fr) repeat(
-      2,
-      28px
-    ) auto auto 28px;
+  grid-template-columns:
+    minmax(90px, 1fr) minmax(90px, 1fr) repeat(2, 28px)
+    auto auto 28px;
   gap: 4px;
   padding: 8px 0;
   border-bottom: 1px solid var(--border);

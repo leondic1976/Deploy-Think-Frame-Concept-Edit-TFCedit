@@ -125,4 +125,5 @@ git push origin main --follow-tags
 - OpenAI 호환 Chat Completions API만 지원합니다.
 - 인터넷 사실 검증과 자동 웹 검색은 수행하지 않습니다.
 - Markdown은 일반 텍스트로 편집합니다.
+- 앱 내부 자동 업데이트는 아직 제공하지 않으며 최신 설치 파일 또는 PowerShell 명령으로 업데이트합니다. 향후 구조는 [아키텍처 문서](docs/ARCHITECTURE.md)에 기록합니다.
 - 클라우드 동기화, 계정, 협업, 플러그인, 지식 그래프는 제공하지 않습니다.
