@@ -1,4 +1,4 @@
-import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, realpath, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
@@ -42,8 +42,9 @@ describe('resolveWorkspaceDocument', () => {
     const root = await workspace();
     await mkdir(path.join(root, 'notes'));
     await writeFile(path.join(root, 'notes', 'idea.md'), '# idea', 'utf8');
+    const expected = await realpath(path.join(root, 'notes', 'idea.md'));
     await expect(resolveWorkspaceDocument(root, 'notes/idea.md', true)).resolves.toBe(
-      path.join(root, 'notes', 'idea.md'),
+      expected,
     );
   });
 

@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-07-25
+
+### 수정
+
+- Windows CI에서 임시 경로의 짧은 이름과 실제 경로가 달라지는 테스트 문제
+
 ## [0.1.0] - 2026-07-25
 
 ### 추가
@@ -17,5 +23,6 @@
 - SHA-256을 검증하는 PowerShell 설치 스크립트
 - Git 태그 기반 GitHub Release 자동 배포
 
-[Unreleased]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/leondic1976/Deploy-Think-Frame-Concept-Edit-TFCedit/releases/tag/v0.1.0

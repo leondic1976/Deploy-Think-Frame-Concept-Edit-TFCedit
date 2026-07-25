@@ -29,7 +29,7 @@ $script="$env:TEMP\install-thinkframe.ps1"; Invoke-WebRequest "https://raw.githu
 특정 버전 설치:
 
 ```powershell
-& "$env:TEMP\install-thinkframe.ps1" -Version 0.1.0
+& "$env:TEMP\install-thinkframe.ps1" -Version 0.1.1
 ```
 
 설치 스크립트는 GitHub Release의 설치 파일과 `SHA256SUMS.txt`를 내려받아 SHA-256을 검증한 후 실행합니다.
