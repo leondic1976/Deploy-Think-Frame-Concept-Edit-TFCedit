@@ -35,6 +35,55 @@ function setReleaseDate(dateText) {
   }
 }
 
+function initGuideVideo() {
+  const steps = Array.from(document.querySelectorAll('.guide-step'));
+  const headline = document.querySelector('#guide-video-headline');
+  const copy = document.querySelector('#guide-video-copy');
+  const chip = document.querySelector('#guide-video-chip');
+  const progress = document.querySelector('#guide-video-progress');
+
+  if (
+    steps.length === 0 ||
+    !headline ||
+    !copy ||
+    !chip ||
+    !progress
+  ) {
+    return;
+  }
+
+  let currentStep = 0;
+
+  const renderStep = () => {
+    const current = steps[currentStep];
+    const stepTitle = current.querySelector('h3')?.textContent?.trim() ?? '';
+    const stepCopy = current.querySelector('p')?.textContent?.trim() ?? '';
+    const stepNumber = current.querySelector('.step-number')?.textContent?.trim() ?? '';
+
+    headline.textContent = stepTitle;
+    copy.textContent = stepCopy;
+    chip.textContent = `STEP ${stepNumber}`;
+
+    steps.forEach((step, index) => {
+      step.classList.toggle('is-active', index === currentStep);
+    });
+
+    const progressRate = (currentStep + 1) / steps.length;
+    progress.style.transform = `scaleX(${progressRate})`;
+  };
+
+  renderStep();
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return;
+  }
+
+  window.setInterval(() => {
+    currentStep = (currentStep + 1) % steps.length;
+    renderStep();
+  }, 2600);
+}
+
 function getCurrentReleaseVersionFallback() {
   const releaseLabel = document.querySelector('#release-label');
   if (!releaseLabel) return null;
@@ -103,6 +152,8 @@ document.querySelectorAll('.terminal-tab').forEach((tab) => {
       commands[tab.dataset.command];
   });
 });
+
+initGuideVideo();
 
 document.querySelector('#copy-command').addEventListener('click', async (event) => {
   const button = event.currentTarget;

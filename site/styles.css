@@ -33,11 +33,12 @@ body {
     sans-serif;
   line-height: 1.6;
   word-break: keep-all;
-  overflow-wrap: break-word;
+  overflow-wrap: normal;
 }
 
 .nowrap-text {
   white-space: nowrap;
+  text-wrap: nowrap;
   overflow-wrap: normal;
   word-break: keep-all;
 }
@@ -315,6 +316,11 @@ h1 {
   white-space: nowrap;
 }
 
+.screen-meta span {
+  white-space: nowrap;
+  text-wrap: nowrap;
+}
+
 .demo-image {
   display: block;
   width: 100%;
@@ -587,24 +593,182 @@ h1 {
   line-height: 1.85;
 }
 
-.guide-steps {
+.guide-layout {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.guide-video-shell {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0c2246;
+  box-shadow: 0 22px 45px rgba(21, 39, 81, 0.24);
+}
+
+.guide-video-topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 12px;
+  color: #dce6ff;
+  background: linear-gradient(180deg, rgba(9, 23, 54, 0.95), rgba(9, 23, 54, 0.76));
+}
+
+.guide-video-btns {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.guide-video-btns span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #7b8fbf;
+}
+
+.guide-video-btns span:first-child {
+  background: #ff6d6d;
+}
+
+.guide-video-btns span:nth-child(2) {
+  background: #ffcc57;
+}
+
+.guide-video-btns span:nth-child(3) {
+  background: #56d48b;
+}
+
+.guide-video-title {
+  flex: 1 1 auto;
+  font-size: 0.74rem;
+  font-weight: 760;
+}
+
+.guide-video-live {
+  min-width: 48px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  color: #0f2d57;
+  background: #67c9ff;
+  text-align: center;
+  font-size: 0.66rem;
+  font-weight: 800;
+}
+
+.guide-video-shot {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.guide-video-overlay {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 18px;
+  z-index: 3;
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(8, 26, 55, 0.8);
+  backdrop-filter: blur(10px);
+  color: #eff6ff;
+}
+
+.guide-video-chip {
+  width: max-content;
+  padding: 3px 8px;
+  border-radius: 999px;
+  color: #16345f;
+  background: #73dcff;
+  font-size: 0.66rem;
+  font-weight: 820;
+}
+
+.guide-video-overlay h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.guide-video-overlay p {
+  margin: 0;
+  color: #d3e0ff;
+  font-size: 0.8rem;
+  line-height: 1.65;
+}
+
+.guide-video-timeline {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 9px;
+  z-index: 2;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.guide-video-timeline span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #70dcff, #6ea9ff);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 300ms linear;
+}
+
+.guide-steps {
   margin: 0;
   padding: 0;
   list-style: none;
+  display: grid;
+  gap: 12px;
 }
 
-.guide-steps li {
+.guide-step {
   display: grid;
   grid-template-columns: 52px 1fr;
   gap: 18px;
-  min-height: 178px;
-  padding: 28px;
+  margin: 0;
+  min-height: auto;
+  padding: 20px;
   border: 1px solid var(--line);
   border-radius: 17px;
   background: rgba(255, 255, 255, 0.72);
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.guide-step.is-active {
+  border-color: rgba(47, 115, 255, 0.45);
+  box-shadow: 0 14px 40px rgba(29, 78, 167, 0.14);
+  transform: translateY(-2px);
+}
+
+.guide-step.is-active .step-number {
+  color: #12366f;
+  background: #d1e4ff;
 }
 
 .step-number {
@@ -927,6 +1091,10 @@ footer {
   .guide-intro {
     grid-template-columns: 1fr;
     gap: 20px;
+  }
+
+  .guide-layout {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .feature-grid,
